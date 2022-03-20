@@ -1,0 +1,416 @@
+login as: s162853
+############################################################################
+#  Jako login wpisujemy s[numer albumu bez zera na poczatku].
+#  Np.: dla legitymacji z numerem 012345 loginem jest s12345
+#       dla legitymacji 123456 jest s123456.
+#  Przypomnienie lub wygenerowanie nowego hasla:
+#
+#     https://oispomoc.uwm.edu.pl/ssp/
+#
+#  Pomoc:
+#     ois@matman.uwm.edu.pl
+#
+#  Nowe haslo wysylane jest na konto w domenie @student.uwm.edu.pl
+#
+############################################################################
+s162853@orfi.uwm.edu.pl's password:
+Linux orfi.uwm.edu.pl 5.10.0-11-amd64 #1 SMP Debian 5.10.92-1 (2022-01-18) x86_64
+############################################################################
+# Witaj na serwerze orfi.uwm.edu.pl                                        #
+#                                                                          #
+# Aby zrestartowaæ lub utworzyæ has³o do bazy danych wpisz w konsoli:      #
+#                                                                          #
+# nowehaslo-bd                                                             #
+#                                                                          #
+# Wygenerowane dane zapisuj¹ siê w pliku ~/mysql-dane.txt                  #
+#                                                                          #
+# Wszelkie sugestie/b³êdy/problemy proszê zg³aszaæ -> aw@matman.uwm.edu.pl #
+#                                                                          #
+############################################################################
+Last login: Sat Mar 19 16:19:19 2022 from 213.184.8.155
+s162853@orfi:~$ pwd
+/home/domena/s162853
+s162853@orfi:~$ tree
+.
++¦¦ DANE
+-   +¦¦ Listy22
+-   L¦¦ teksty21.03
+-       +¦¦ public_html
+-       L¦¦ tekstyNowe
++¦¦ public_html
+L¦¦ ZAJ.3
+    +¦¦ Aplikacje
+    -   L¦¦ BD
+    -       +¦¦ SQL
+    -       L¦¦ Sybase
+    +¦¦ Skrypty
+    -   +¦¦ BASH
+    -   -   L¦¦ Zapis-19.03.22.txt
+    -   L¦¦ PHP
+    -       L¦¦ StronaWWW
+    L¦¦ Zasoby
+        +¦¦ Archiwa
+        -   +¦¦ Podania
+        -   -   L¦¦ inf_o_zajeciach -> /home/domena/s162853/ZAJ.3/Skrypty/BASH
+        -   L¦¦ test
+        L¦¦ Notatki
+
+20 directories, 2 files
+s162853@orfi:~$ pwd
+/home/domena/s162853
+s162853@orfi:~$ ls
+DANE  public_html  ZAJ.3
+s162853@orfi:~$ ls > EFEKT_10.55
+s162853@orfi:~$ ls
+DANE  EFEKT_10.55  public_html  ZAJ.3
+s162853@orfi:~$ cat EFEKT_10.55
+DANE
+EFEKT_10.55
+public_html
+ZAJ.3
+s162853@orfi:~$ pwd > EFEKT_10.55
+s162853@orfi:~$ cat > EFEKT_10.55
+^[[A^[[B^[[A^[[A^Z
+[1]+  Zatrzymano              cat > EFEKT_10.55
+s162853@orfi:~$ cat  EFEKT_10.55
+s162853@orfi:~$ pwd > EFEKT_10.55
+s162853@orfi:~$ cat  EFEKT_10.55
+/home/domena/s162853
+s162853@orfi:~$ who >> EFEKT_10.55
+s162853@orfi:~$ cat EFEKT_10.55
+/home/domena/s162853
+root     pts/0        2022-02-24 21:57 (213.184.8.101)
+s155802  pts/1        2022-03-20 10:34 (213.184.8.155)
+s162853  pts/2        2022-03-20 10:34 (213.184.8.155)
+s162844  pts/3        2022-03-20 10:36 (213.184.8.155)
+s156225  pts/4        2022-03-20 10:36 (213.184.8.155)
+s162283  pts/5        2022-03-20 10:37 (213.184.8.155)
+s134506  pts/6        2022-03-20 10:37 (213.184.8.155)
+s163293  pts/7        2022-03-20 10:37 (213.184.8.155)
+s162868  pts/8        2022-03-20 10:37 (213.184.8.155)
+s162808  pts/9        2022-03-20 10:39 (213.184.8.155)
+mirek    pts/11       2022-03-20 08:08 (213.184.8.155)
+s162663  pts/12       2022-03-20 10:40 (213.184.8.155)
+s163278  pts/13       2022-03-20 10:42 (213.184.8.155)
+s163310  pts/10       2022-03-20 10:39 (213.184.8.155)
+s162853@orfi:~$ ls -l
+razem 16
+drwxr-xr-x 4 s162853 domain users 4096 03-19 17:47 DANE
+-rw-r--r-- 1 s162853 domain users  791 03-20 11:02 EFEKT_10.55
+drwxr-xr-x 2 s162853 domain users 4096 03-19 16:19 public_html
+drwxr-xr-x 5 s162853 domain users 4096 03-19 16:24 ZAJ.3
+s162853@orfi:~$ ls-l 2> BLEDY_11.06
+s162853@orfi:~$ cat 2> BLEDY_11.06
+^C
+s162853@orfi:~$ ls > DOBRE 2> ZLE
+s162853@orfi:~$ cat ZLE
+s162853@orfi:~$ cat DOBRE
+BLEDY_11.06
+DANE
+DOBRE
+EFEKT_10.55
+public_html
+ZAJ.3
+ZLE
+s162853@orfi:~$ ls -l > HHH 2>&1
+s162853@orfi:~$ cat HHH
+razem 20
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:12 BLEDY_11.06
+drwxr-xr-x 4 s162853 domain users 4096 03-19 17:47 DANE
+-rw-r--r-- 1 s162853 domain users   57 03-20 11:14 DOBRE
+-rw-r--r-- 1 s162853 domain users  791 03-20 11:02 EFEKT_10.55
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:15 HHH
+drwxr-xr-x 2 s162853 domain users 4096 03-19 16:19 public_html
+drwxr-xr-x 5 s162853 domain users 4096 03-19 16:24 ZAJ.3
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:14 ZLE
+s162853@orfi:~$ cat ZAJ.3
+cat: ZAJ.3: Jest katalogiem
+s162853@orfi:~$ cat ZAJ.3 2> H##
+s162853@orfi:~$ cat ZAJ.3 2> DOBRE2 2> ZLE2
+s162853@orfi:~$ ls
+BLEDY_11.06  DOBRE   EFEKT_10.55  HHH          ZAJ.3  ZLE2
+DANE         DOBRE2  H##          public_html  ZLE
+s162853@orfi:~$ cal ZLE2
+-bash: cal: nie znaleziono polecenia
+s162853@orfi:~$ cat ZLE2
+cat: ZAJ.3: Jest katalogiem
+s162853@orfi:~$ cat * > DOBRE2> ZLE2
+cat: DANE: Jest katalogiem
+cat: public_html: Jest katalogiem
+cat: ZAJ.3: Jest katalogiem
+cat: ZLE2: plik wejœciowy jest plikiem wyjœciowym
+s162853@orfi:~$ cat * > DOBRE2 2> ZLE2
+s162853@orfi:~$ cat ZLE2
+cat: DANE: Jest katalogiem
+cat: DOBRE2: plik wejœciowy jest plikiem wyjœciowym
+cat: public_html: Jest katalogiem
+cat: ZAJ.3: Jest katalogiem
+s162853@orfi:~$ echo Przerwa za 25 minut
+Przerwa za 25 minut
+s162853@orfi:~$ echo Inf. o katalogu bie¿¹cym > DANE_11.18
+s162853@orfi:~$ pwd >> DANE_11.18
+s162853@orfi:~$ cat DAME_11.18
+cat: DAME_11.18: Nie ma takiego pliku ani katalogu
+s162853@orfi:~$ cat DANE_11.18
+Inf. o katalogu bie¿¹cym
+/home/domena/s162853
+s162853@orfi:~$ echo `ls -l`
+razem 40 -rw-r--r-- 1 s162853 domain users 0 03-20 11:12 BLEDY_11.06 drwxr-xr-x 4 s162853 domain users 4096 03-19 17:47 DANE -rw-r--r-- 1 s162853 domain users 48 03-20 11:23 DANE_11.18 -rw-r--r-- 1 s162853 domain users 57 03-20 11:14 DOBRE -rw-r--r-- 1 s162853 domain users 1497 03-20 11:19 DOBRE2 -rw-r--r-- 1 s162853 domain users 791 03-20 11:02 EFEKT_10.55 -rw-r--r-- 1 s162853 domain users 28 03-20 11:17 H## -rw-r--r-- 1 s162853 domain users 478 03-20 11:15 HHH drwxr-xr-x 2 s162853 domain users 4096 03-19 16:19 public_html drwxr-xr-x 5 s162853 domain users 4096 03-19 16:24 ZAJ.3 -rw-r--r-- 1 s162853 domain users 0 03-20 11:14 ZLE -rw-r--r-- 1 s162853 domain users 143 03-20 11:19 ZLE2
+s162853@orfi:~$ echo $HOME
+/home/domena/s162853
+s162853@orfi:~$ > DDDD@@@@
+s162853@orfi:~$ ls -l DDDD@@@@
+-rw-r--r-- 1 s162853 domain users 0 03-20 11:35 DDDD@@@@
+s162853@orfi:~$ touch RRR
+s162853@orfi:~$ ls -l RRR
+-rw-r--r-- 1 s162853 domain users 0 03-20 11:36 RRR
+s162853@orfi:~$ cat > PLIK99
+To jesy plik robiony poprzez cat i strumieñ WE
+Zaraz go zakoñczê
+^Z
+[2]+  Zatrzymano              cat > PLIK99
+s162853@orfi:~$ ls -l
+razem 44
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:12 BLEDY_11.06
+drwxr-xr-x 4 s162853 domain users 4096 03-19 17:47 DANE
+-rw-r--r-- 1 s162853 domain users   48 03-20 11:23 DANE_11.18
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:35 DDDD@@@@
+-rw-r--r-- 1 s162853 domain users   57 03-20 11:14 DOBRE
+-rw-r--r-- 1 s162853 domain users 1497 03-20 11:19 DOBRE2
+-rw-r--r-- 1 s162853 domain users  791 03-20 11:02 EFEKT_10.55
+-rw-r--r-- 1 s162853 domain users   28 03-20 11:17 H##
+-rw-r--r-- 1 s162853 domain users  478 03-20 11:15 HHH
+-rw-r--r-- 1 s162853 domain users   68 03-20 11:38 PLIK99
+drwxr-xr-x 2 s162853 domain users 4096 03-19 16:19 public_html
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:36 RRR
+drwxr-xr-x 5 s162853 domain users 4096 03-19 16:24 ZAJ.3
+-rw-r--r-- 1 s162853 domain users    0 03-20 11:14 ZLE
+-rw-r--r-- 1 s162853 domain users  143 03-20 11:19 ZLE2
+s162853@orfi:~$ cat PLIK99
+To jesy plik robiony poprzez cat i strumieñ WE
+Zaraz go zakoñczê
+s162853@orfi:~$ wc PLIK99
+ 2 12 68 PLIK99
+s162853@orfi:~$ wc -l PLIK99
+2 PLIK99
+s162853@orfi:~$ wc -w PLIK99
+12 PLIK99
+s162853@orfi:~$ wc -c PLIK99
+68 PLIK99
+s162853@orfi:~$ who | wc -l
+14
+s162853@orfi:~$
+s162853@orfi:~$ pwd > dane22
+s162853@orfi:~$ cat dane22
+/home/domena/s162853
+s162853@orfi:~$ ls -l >> dane22
+s162853@orfi:~$ cat dane22
+s162853@orfi:~$ tree >> dane22
+s162853@orfi:~$ tree >> drzewo
+s162853@orfi:~$ cat drzewo
+
+s162853@orfi:~$ find . -name ZLE
+./ZLE
+s162853@orfi:~$
+
+s162853@orfi:~$ find . -iname "W*"
+./wynik
+s162853@orfi:~$
+
+s162853@orfi:~$ find . -amin -10
+./.local/share/mc
+./drzewo
+s162853@orfi:~$
+
+s162853@orfi:~$ find . -cmin 1
+./RRR
+
+s162853@orfi:~$ find . -mmin 1
+./RRR
+s162853@orfi:~$
+
+s162853@orfi:~$ find . -mindepth 3 -maxdepth 3
+./.local/share/nano
+./.local/share/mc
+./DANE/teksty21.03/public_html
+./DANE/teksty21.03/tekstyNowe
+./.config/mc/panels.ini
+./.config/mc/ini
+./.cache/mc/Tree
+./ZAJ.3/Zasoby/Archiwa
+./ZAJ.3/Zasoby/Notatki
+./ZAJ.3/Skrypty/BASH
+./ZAJ.3/Skrypty/PHP
+./ZAJ.3/Aplikacje/BD
+s162853@orfi:~$
+s162853@orfi:~$ find /dev -type c
+/dev/fb0
+/dev/dri/card0
+/dev/rfkill
+/dev/snd/seq
+/dev/snd/timer
+/dev/vhost-vsock
+/dev/vhost-net
+/dev/uhid
+/dev/vhci
+/dev/vfio/vfio
+/dev/mapper/control
+/dev/uinput
+/dev/ppp
+/dev/net/tun
+/dev/loop-control
+/dev/nvram
+/dev/btrfs-control
+/dev/cuse
+/dev/vcsa6
+/dev/vcsu6
+/dev/vcs6
+/dev/vcsa5
+/dev/vcsu5
+/dev/vcs5
+/dev/vcsa4
+/dev/vcsu4
+/dev/vcs4
+/dev/vcsa3
+/dev/vcsu3
+/dev/vcs3
+/dev/vcsa2
+/dev/vcsu2
+/dev/vcs2
+/dev/fuse
+/dev/autofs
+/dev/hidraw0
+/dev/bus/usb/001/002
+/dev/bus/usb/001/001
+/dev/pts/7
+/dev/pts/9
+/dev/pts/13
+/dev/pts/14
+/dev/pts/12
+/dev/pts/10
+/dev/pts/8
+/dev/pts/6
+/dev/pts/5
+/dev/pts/4
+/dev/pts/3
+/dev/pts/2
+/dev/pts/1
+/dev/pts/11
+/dev/pts/0
+/dev/pts/ptmx
+/dev/cpu_dma_latency
+/dev/rtc0
+/dev/psaux
+/dev/input/event5
+/dev/input/event4
+/dev/input/event3
+/dev/input/event2
+/dev/input/event1
+/dev/input/event0
+/dev/input/mouse2
+/dev/input/mouse1
+/dev/input/mouse0
+/dev/input/mice
+/dev/hpet
+/dev/ttyS3
+/dev/ttyS2
+/dev/ttyS1
+/dev/ttyS0
+/dev/ptmx
+/dev/snapshot
+/dev/tty63
+/dev/tty62
+/dev/tty61
+/dev/tty60
+/dev/tty59
+/dev/tty58
+/dev/tty57
+/dev/tty56
+/dev/tty55
+/dev/tty54
+/dev/tty53
+/dev/tty52
+/dev/tty51
+/dev/tty50
+/dev/tty49
+/dev/tty48
+/dev/tty47
+/dev/tty46
+/dev/tty45
+/dev/tty44
+/dev/tty43
+/dev/tty42
+/dev/tty41
+/dev/tty40
+/dev/tty39
+/dev/tty38
+/dev/tty37
+/dev/tty36
+/dev/tty35
+/dev/tty34
+/dev/tty33
+/dev/tty32
+/dev/tty31
+/dev/tty30
+/dev/tty29
+/dev/tty28
+/dev/tty27
+/dev/tty26
+/dev/tty25
+/dev/tty24
+/dev/tty23
+/dev/tty22
+/dev/tty21
+/dev/tty20
+/dev/tty19
+/dev/tty18
+/dev/tty17
+/dev/tty16
+/dev/tty15
+/dev/tty14
+/dev/tty13
+/dev/tty12
+/dev/tty11
+/dev/tty10
+/dev/tty9
+/dev/tty8
+/dev/tty7
+/dev/tty6
+/dev/tty5
+/dev/tty4
+/dev/tty3
+/dev/tty2
+/dev/tty1
+/dev/vcsa1
+/dev/vcsu1
+/dev/vcs1
+/dev/vcsa
+/dev/vcsu
+/dev/vcs
+/dev/tty0
+/dev/console
+/dev/tty
+/dev/kmsg
+/dev/urandom
+/dev/random
+/dev/full
+/dev/zero
+/dev/port
+/dev/null
+/dev/mem
+/dev/vga_arbiter
+
+s162853@orfi:~$ find /dev -type b
+s162853@orfi:~$ find /dev -type l
+s162853@orfi:~$ find . -type f
+
+s162853@orfi:~$ find . -type f -exec cat {} \;
+
+
+
+
+
+
+
+
+
