@@ -1,0 +1,440 @@
+poleceni, ktore wyszukuje wszystki katalog i 
+
+find- wyszukuje pliki, ktore byly zmieniane, modyfikowane albo by dostep
+
+find / -mindepth 1 -maxdepth 2 -type l
+
+^^ find  - wyszukanie zasobow
+
+grep- przeszukuje tresc plikow tekstowych(wyszukuje wiersze, ktore zawieraja pewien tekst)
+
+
+s160396@orfi:~$ echo "ala ma kota i psa" > plik1
+s160396@orfi:~$ echo "pies i kot sa pod jednym dachem" > plik2
+s160396@orfi:~$ echo "jan ma kota, ala ma psa \n pies azor" >>plik1
+s160396@orfi:~$ echo kot Maurycy to  dachowiec > plik3
+s160396@orfi:~$ grep ala *      = wyszuka kazdy plik, gdzie jest ala, parametrow nie ma, wzorzec ala, dowolne pliki z al¹
+grep: Dane: Jest katalogiem
+plik1:ala ma kota i psa
+plik1:jan ma kota, ala ma psa \n pies azor
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+
+
+parametr -b - od ktorego znaku zaczyna sie dany wiersz. pierwszy od pozycjii 0 drugi od 18
+s160396@orfi:~$ grep -b ala *
+grep: Dane: Jest katalogiem
+plik1:0:ala ma kota i psa
+plik1:18:jan ma kota, ala ma psa \n pies azor
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+s160396@orfi:~$ cat plik1
+ala ma kota i psa
+jan ma kota, ala ma psa \n pies azor
+s160396@orfi:~$ grep ala ./*
+grep: ./Dane: Jest katalogiem
+./plik1:ala ma kota i psa
+./plik1:jan ma kota, ala ma psa \n pies azor
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+
+
+grep <parametry> <wzorzec> <gdzie>
+
+s160396@orfi:~$ echo "ala ma kota i psa" > plik1
+s160396@orfi:~$ echo "pies i kot sa pod jednym dachem\na jan ma kota, ala ma psaa\n pies azor" > plik1
+s160396@orfi:~$ cat plik1
+pies i kot sa pod jednym dachem\na jan ma kota, ala ma psaa\n pies azor
+s160396@orfi:~$ echo "ala ma kota i psa" > plik1
+s160396@orfi:~$ echo "pies i kot sa pod jednym dachem" > plik2
+s160396@orfi:~$ echo "jan ma kota, ala ma psa \n pies azor" >>plik1
+s160396@orfi:~$ echo kot Maurycy to  dachowiec > plik3
+s160396@orfi:~$ grep ala *
+grep: Dane: Jest katalogiem
+plik1:ala ma kota i psa
+plik1:jan ma kota, ala ma psa \n pies azor
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+s160396@orfi:~$ grep -b ala *
+grep: Dane: Jest katalogiem
+plik1:0:ala ma kota i psa
+plik1:18:jan ma kota, ala ma psa \n pies azor
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+s160396@orfi:~$ cat plik1
+ala ma kota i psa
+jan ma kota, ala ma psa \n pies azor
+s160396@orfi:~$ grep ala ./*
+grep: ./Dane: Jest katalogiem
+./plik1:ala ma kota i psa
+./plik1:jan ma kota, ala ma psa \n pies azor
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s160396@orfi:~$ echo kot i ala spaceruj¹ > plik44
+s160396@orfi:~$ echo kot i pies ali bawi¹ siê >>plik 44
+s160396@orfi:~$ echo kot i pies ali bawi¹ siê >>plik44
+s160396@orfi:~$ echo kot i pies ali bawi¹ siê >> plik44
+s160396@orfi:~$ echo kot i pies ali bawi¹ siê >> plik55
+s160396@orfi:~$ grep "^ala" ./*
+grep: ./Dane: Jest katalogiem
+./plik1:ala ma kota i psa
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s160396@orfi:~$ grep "ala" ./*
+grep: ./Dane: Jest katalogiem
+./plik1:ala ma kota i psa
+./plik1:jan ma kota, ala ma psa \n pies azor
+./plik44:kot i ala spaceruj¹
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s160396@orfi:~$ echo ³adnego psa ma ala > plik100
+s160396@orfi:~$ grep "ala$" ./*
+grep: ./Dane: Jest katalogiem
+./plik100:³adnego psa ma ala
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s160396@orfi:~$ grep "al[a,i,¹,ê]" ./*
+grep: ./Dane: Jest katalogiem
+./plik:kot i pies ali bawi¹ siê 44
+./plik1:ala ma kota i psa
+./plik1:jan ma kota, ala ma psa \n pies azor
+./plik100:³adnego psa ma ala
+./plik44:kot i ala spaceruj¹
+./plik44:kot i pies ali bawi¹ siê
+./plik44:kot i pies ali bawi¹ siê
+./plik55:kot i pies ali bawi¹ siê
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s160396@orfi:~$
+
+
+-E jako rozszerzenie
+ . jako dowolny 1 znak
+
+s160396@orfi:~$ echo ooluu - wola mama >plik23
+s160396@orfi:~$ cat plik23
+ooluu - wola mama
+s160396@orfi:~$ grep ".la" *
+grep: Dane: Jest katalogiem
+plik1:ala ma kota i psa
+plik1:jan ma kota, ala ma psa \n pies azor
+plik100:³adnego psa ma ala
+plik22:ola ma kucyka
+plik23:ooluu - wola mama
+plik44:kot i ala spaceruj¹
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+
+s160396@orfi:~$ echo ooooluuuu - wo³a g³oœno >> plik23
+s160396@orfi:~$ cat plik23
+ooluu - wola mama
+ooooluuuu - wo³a g³oœno
+s160396@orfi:~$ grep -E "o+lu+" *    ==WAZNE
+grep: Dane: Jest katalogiem
+plik23:ooluu - wola mama
+plik23:ooooluuuu - wo³a g³oœno
+grep: public_html: Jest katalogiem
+grep: ZAJ.3: Jest katalogiem
+
+
+s160396@orfi:~$ grep -E -b "^ *al?a*" *  -wazne polecenia, -b mowi od ktorego wiersza
+akdjdgg:0:a1
+akdjdgg:3:a2
+akdjdgg:6:a3bb
+akdjdgg:11:akdjdgg
+akppp:0:a1
+akppp:3:a2
+akppp:6:a3bb
+akppp:11:akdjdgg
+akppp:19:akppp
+bb122cc:0:a1
+bb122cc:3:a2
+bb122cc:6:a3bb
+grep: Dane: Jest katalogiem
+fcsssssss:0:a1
+fcsssssss:3:a2
+fcsssssss:6:a3bb
+fcsssssss:11:akdjdgg
+kstr:0:a1
+kstr:3:a2
+kstr:6:a3bb
+kstr:11:akdjdgg
+plik1:0:ala ma kota i psa
+ppsr:0:a1
+ppsr:3:a2
+ppsr:6:a3bb
+ppsr:11:akdjdgg
+grep: public_html: Jest katalogiem
+RAZEM:0:a1
+RAZEM:3:a2
+RAZEM:6:a3bb
+RAZEM:11:akdjdgg
+wtetet:0:a1
+wtetet:3:a2
+wtetet:6:a3bb
+wtetet:11:akdjdgg
+WYNIK_ls:50:a1
+WYNIK_ls:53:a2
+WYNIK_ls:56:a3bb
+xbncbsoqp:0:a1
+xbncbsoqp:3:a2
+xbncbsoqp:6:a3bb
+xbncbsoqp:11:akdjdgg
+grep: ZAJ.3: Jest katalogiem
+
+przecwiczyc ZADANIA z pliku
+
+
+s160396@orfi:~$ ls -a
+.        .bash_history  Dane       plik100  plik55         wtetet
+..       .bash_logout   dobre      plik2    plik77.save    Wynik11
+a1       .bashrc        fcsssssss  plik21   plik77.save.1  WYNIK_ls
+a2       bb122cc        kstr       plik22   ppsr           xbncbsoqp
+a3bb     bledy          .local     plik23   .profile       ZAJ.3
+akdjdgg  .cache         plik       plik3    public_html
+akppp    .config        plik1      plik44   RAZEM
+s160396@orfi:~$
+
+
+ponizej co sie dzieje, jak sie logujemy
+wiersze ,ktore sa wylaczone oznaccza sie hashem
+
+s160396@orfi:~$ cat .bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    #alias grep='grep --color=auto'
+    #alias fgrep='fgrep --color=auto'
+    #alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+#alias ll='ls -l'
+#alias la='ls -A'
+#alias l='ls -CF'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+s160396@orfi:~$ echo $PWD
+/home/domena/s160396
+
+
+s160396@orfi:~$ set | less
+BASH=/bin/bash
+BASHOPTS=checkwinsize:cmdhist:complete_fullquote:expand_aliases:extglob:extquote:force_fignore:globasciiranges:histappend:interactive_comments:login_shell:progcomp:promptvars:sourcepath
+BASH_ALIASES=()
+BASH_ARGC=([0]="0")
+BASH_ARGV=()
+BASH_CMDS=()
+BASH_COMPLETION_VERSINFO=([0]="2" [1]="11")
+BASH_LINENO=()
+BASH_SOURCE=()
+BASH_VERSINFO=([0]="5" [1]="1" [2]="4" [3]="1" [4]="release" [5]="x86_64-pc-linux-gnu")
+BASH_VERSION='5.1.4(1)-release'
+COLUMNS=80
+DIRSTACK=()
+EUID=1093807742
+GROUPS=()
+HISTCONTROL=ignoreboth
+HISTFILE=/home/domena/s160396/.bash_history
+HISTFILESIZE=2000
+HISTSIZE=1000
+HOME=/home/domena/s160396
+:
+
+
+s160396@orfi:~$ grep ala $HOME
+grep: /home/domena/s160396: Jest katalogiem
+s160396@orfi:~$ grep ala $HOME/*
+grep: /home/domena/s160396/Dane: Jest katalogiem
+/home/domena/s160396/plik1:ala ma kota i psa
+/home/domena/s160396/plik1:jan ma kota, ala ma psa \n pies azor
+/home/domena/s160396/plik100:³adnego psa ma ala
+/home/domena/s160396/plik44:kot i ala spaceruj¹
+grep: /home/domena/s160396/public_html: Jest katalogiem
+grep: /home/domena/s160396/ZAJ.3: Jest katalogiem
+
+EXPORT nie bedzie na klasowce
+
+s160396@orfi:~$ a=555
+s160396@orfi:~$ echo $a
+555
+s160396@orfi:~$ echo "a=$a"
+a=555
+s160396@orfi:~$ a='Ala i A'
+s160396@orfi:~$ set | less
+
+[2]+  Zatrzymano              set | less
+s160396@orfi:~$ unset a
+s160396@orfi:~$ echo "a=$a"
+a=
+s160396@orfi:~$ a=55
+s160396@orfi:~$ a=$[$a+4]
+s160396@orfi:~$ echo "a=$a"
+a=59
+
+s160396@orfi:~$ unset a
+s160396@orfi:~$ echo "a=$a"
+a=
+s160396@orfi:~$ a=55
+s160396@orfi:~$ a=$[$a+4]
+s160396@orfi:~$ echo "a=$a"
+a=59
+s160396@orfi:~$ b=2
+s160396@orfi:~$ b=22
+s160396@orfi:~$ b=$[$b*2]
+s160396@orfi:~$ echo "b=$b"
+b=44
+s160396@orfi:~$ b=$ [$b/3]
+-bash: [44/3]: Nie ma takiego pliku ani katalogu
+s160396@orfi:~$ echo "b=$b"
+b=44
+s160396@orfi:~$ echo $PATH   - jezeli podajemy polecenie to albo rozpoznaje albo nie
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+
+
+s160396@orfi:~$ if test ala = ola
+> then echo TAK
+> else echo NIE
+> fi
+NIE
+
+
+WARUNKI TRZECH KATEGORII:tekstow, liczb i ...
+
+
+s160396@orfi:~$ a="kot i pies"
+s160396@orfi:~$ echo $a
+kot i pies
+s160396@orfi:~$ if [ $a ]; then echo TAK; else echo NIE; fi
+-bash: [: i: oczekiwano operatora dwuargumentowego
+NIE
+s160396@orfi:~$ NIE
+-bash: NIE: nie znaleziono polecenia
+s160396@orfi:~$ if [ "$a" = ala ]; then echo TAK; else echo NIE; fi
+NIE
+s160396@orfi:~$
+
+
+[ "$a" = ala ]  =/=  [ "$a"=ala ]  te drugie potraktuje jako tekst
+
+-gt great (wiekszy)
+-les less  (mniejszy)
+-gte -wiekszy rowny
+ od e equivalent
+
+s160396@orfi:~$ if [ 3 -gt 4]; then echo TAK; else echo NIE; fi
+-bash: [: brakuj¹cy `]'
+NIE
+
+
+
+s160396@orfi:~$ if [ $a -gt $b ]; then echo TAK; else echo NIE; fi   - tu liczby sie porownuje
+-bash: [: ala: oczekiwano wyra¿enia ca³kowitego
+NIE
+s160396@orfi:~$ if [ a -gt b ]; then echo TAK; else echo NIE; fi
+-bash: [: a: oczekiwano wyra¿enia ca³kowitego
+NIE
+
+
+3. Kryterium plików

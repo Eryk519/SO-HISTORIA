@@ -1,0 +1,138 @@
+Znajdz pliki w katalogu glownym i jego podkatalogach(typu c) i wyswietl informacje od nich
+Odp:
+find / -mindepth 1 -maxdepth 2 -type c -exec ls -l {} \;
+s162853@orfi:~$ echo ala i as >plik11
+s162853@orfi:~$ echo kot ali to lolek >> plik11
+s162853@orfi:~$ echo pies ali to as  >> plik11
+s162853@orfi:~$ cat plik11
+ala i as
+kot ali to lolek
+pies ali to as
+s162853@orfi:~$ echo pony eli to stach  >> plik22
+s162853@orfi:~$ echo ola ma tez chomika  >> plik22
+s162853@orfi:~$ cat plik22
+pony eli to stach
+ola ma tez chomika
+s162853@orfi:~$ echo ola i ala mieszkaj¹ obok siebie  >> plik33
+s162853@orfi:~$ echo mama wo³a - ooluuuu  >> plik33
+s162853@orfi:~$ echo brat wo³a - ooluuuuchnaa  >> plik33
+s162853@orfi:~$ echo tata wo³a - aaalaaaaa  >> plik33
+s162853@orfi:~$ cat plik33
+ola i ala mieszkaj¹ obok siebie
+mama wo³a - ooluuuu
+brat wo³a - ooluuuuchnaa
+tata wo³a - aaalaaaaa
+s162853@orfi:~$
+
+162853@orfi:~$ grep -b "^ola" ./*
+grep: ./DANE: Jest katalogiem
+./plik22:18:ola ma tez chomika
+./plik33:0:ola i ala mieszkaj¹ obok siebie
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$ grep "as$" ./*
+grep: ./DANE: Jest katalogiem
+./plik11:ala i as
+./plik11:pies ali to as
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$
+
+s162853@orfi:~$ grep ".la" ./*
+grep: ./DANE: Jest katalogiem
+./plik11:ala i as
+./plik22:ola ma tez chomika
+./plik33:ola i ala mieszkaj¹ obok siebie
+./plik33:tata wo³a - aaalaaaaa
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$
+s162853@orfi:~$ grep -E "a+la+" ./*
+grep: ./DANE: Jest katalogiem
+./plik11:ala i as
+./plik33:ola i ala mieszkaj¹ obok siebie
+./plik33:tata wo³a - aaalaaaaa
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$
+
+
+s162853@orfi:~$ grep -E "[o,a]la" ./*
+grep: ./DANE: Jest katalogiem
+./plik11:ala i as
+./plik22:ola ma tez chomika
+./plik33:ola i ala mieszkaj¹ obok siebie
+./plik33:tata wo³a - aaalaaaaa
+grep: ./public_html: Jest katalogiem
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$
+
+
+s162853@orfi:~$ grep -E "^ +al?a" ./*
+grep: ./DANE: Jest katalogiem
+grep: ./public_html: Jest katalogiem
+./tekst05_04:   ala i as
+grep: ./ZAJ.3: Jest katalogiem
+s162853@orfi:~$
+
+
+s162853@orfi:~$ ls -a
+.              .cache      DOBRE        .local    public_html       ZLE
+..             .config     DOBRE2       plik11    RRR               ZLE2
+.bash_history  DANE        drzewo       plik22    .selected_editor
+.bash_logout   DANE_11.18  EFEKT_10.55  plik33    tekst05_04
+.bashrc        dane22      H##          PLIK99    wynik
+BLEDY_11.06    DDDD@@@@    HHH          .profile  ZAJ.3
+s162853@orfi:~$ cat .profile
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+s162853@orfi:~$ echo $LOGNAME
+s162853
+s162853@orfi:~$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+s162853@orfi:~$ PWD
+-bash: PWD: nie znaleziono polecenia
+s162853@orfi:~$ pwd
+/home/domena/s162853
+s162853@orfi:~$ k=2137
+s162853@orfi:~$ echo "k=$k"
+k=2137
+s162853@orfi:~$ k="ala i as"
+s162853@orfi:~$ echo "k=$k"
+k=ala i as
+s162853@orfi:~$ k=
+s162853@orfi:~$ echo "k=$k"
+k=
+s162853@orfi:~$ unset k
+s162853@orfi:~$ unset k
+s162853@orfi:~$ echo "k=$k"
+k=
+s162853@orfi:~$
+
+
+
