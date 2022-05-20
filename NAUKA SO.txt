@@ -1,0 +1,126 @@
+1 System Operacyjny to
+	Oprogramowanie zarządzające systemem komputerowym
+2 Zadania SO
+	Przydział czasu procesora
+	Przydział pamięci operacyjnej
+	Synchronizacja zadań i komunikacja między nimi
+	Obsługa sprzętu
+	Zarządzanie plikami
+3 Budowa SO
+	Jądro – wykonuje i kontroluje zadania (pkt2)
+	Powłoka – program komunikujący użytkownika z systemem
+	System plików – sposób zapisu struktury danych na nośniku
+Poziom Logiczny – najwyższy poziom systemu plików
+	Obejmuje strukturę katalogów i przechowywane w katalogach pliki
+Każdy użytkownik posiada katalog domowy
+
+Polecenia shell
+ls – zawartość katalogu
+ls-l wyświetlenie katalogu wraz z informacjami
+pwd – infomacje o katalogu bieżącym
+cd .. – piętro wyżej
+cd / - katalog główny
+cd  -powrót do katalogu domoweho
+/home/st_2014 -ścieżka bezwzględna
+./../../bin -ścieżka względna
+.  –katalog bieżący
+.. – katalog nadrzędny
+/  -katalog główny
+~  -katalog domowy
+tree  -pokazuje zawartość katalogu w postaci drzewa
+tree-d-L 1 – pokazuje podkatalologu do poziomu 1 zagłębiena
+Ścieżka bezwzględna  -ścieżka od katalogu głównego
+Ścieżka względna -ścieżka od pewnego katalogu (np. bieżącego)
+
+Rodzaje plików
+„-„  plik zwykłu
+d katalog
+c urządzenie znakowe
+b urządzenie blokowe
+l linki, dołączenia
+
+Uprawnienia do zasobów
+r  -cztanie
+w  -zapis/zmiany
+x  -wykonywanie
+
+uprawnienia mają 3 grupy
+1	- dotyczy właściciela grupy
+2	- dotyczy grupy
+3	- dotyczy pozostałych użytkowników
+POMOC
+man	np. man ls
+
+Polecenia
+ cp	kopiowanie
+mv	przeniesienie	
+rm 	usuwanie
+nano 	edytor tekstowu
+cat	obejrzenie zawartości pliku np. cat /home/xd/2137
+mkdir	utworz katalog
+rmdir	usun katalog
+mv  Nazwa1 Nazwa 2	jeżeli w tym samym katalogu zmiana nazwy
+wc	liczy slowa
+
+head	pokazuje 10 pierwszych linii pliku
+tail	pokazuje 10 ostatnich linii pliku
+echo  ls-l
+echo `ls-l` wykonanie polecenia
+echo „ls-l” zwykly tekst
+ln -s <dane zasobu>  Nazwa Odsyłacza  - tworzenie dowiązania
+np. ls -s ../../Rachunki  ./cwicz2/Teksty/Listy/Odsylacz_Rachunki
+chmod  - zmiana parwo dostępu
+np. chmod 555 dane.txt
+Prawa dostępu zapisujemy w notacji 777
+111 111 111
+rwx rwx rwx
+
+
+System plików to także system przechowywania pamięci na sektorach wejścia wyjścia
+Np. FAT43, NTFS
+
+Poziomy abstrakcji przy dyskach HDD
+Najniższy – formatowanie niskopoziomowe
+Przejściowy podział na pseudourządzenia (partycje)
+Średni -formatowanie wysokopoziomowe
+Najwyższy  - nazwy symboliczne plików, katalogów
+
+Filtry
+Np. cp *.txt  cp ???.txt
+*-zastepuje dowolna ilość znakow
+?- zasteouje dokładnie jeden znka
+Np. ls ??[a-k,p,t] – pokazuje zasoby zawierające na trzeciej pozycji 1 z podanych w nawiasie znakow
+
+Poziomy abstrakcji
+Niski – urządzenia i kontrolery
+Fizyczny – struktury fizyczne plików
+Logiczny – poziom użytkownika
+
+Mc – apliakcja midnight commander można za jej pomocą tworzyć katalogi
+
+ 
+Wyjście błędów z konsoli tekstwoej na plik dane123
+ls-l 2> dane123
+Strumienie są traktowane jako pliki specjalne, mają przyporządkowane węzły, ich numery:
+WE-0
+WY-1
+WY błędów -2
+Łączneie za pomocą strumienie i przekerowywanie
+cat dane1 testy22 list11 > archiwum 
+Łączenie poleceń
+wc	liczy słowa
+Polecenia łączymy za pomocą znaku |
+ls -l | wc -l 
+np. wc -l WSZYSTKO	liczy wiersze w pliku WSZYSTKO
+ls | wc -l
+
+Polecenie find
+Służy do wyszukiwania zasobów według różnych kryteriów
+Kryteria:
+-amin, 	
+-atime, 
+-cmin,
+ -ctime,
+ -mmin,
+ -mtime 
+Find -empty	znajduje puste pliki
