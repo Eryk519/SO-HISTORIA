@@ -1,0 +1,357 @@
+Zajêcia 2.
+Temat: Podsystem zarz¹dzania Systemem Plików
+
+Z harmonogramu:
+
+2. Podsystem plików –poziom logiczny, jego organizacja, pojêcie pliku, katalogu, struktura katalogów.
+Æwiczenia: zarz¹dzanie zasobami u¿ytkownika w ramach SO Linux – polecenia pow³oki dotycz¹ce plików i katalogów.
+Podsystem plików –poziom fizyczny i logiczny, ich powi¹zania, œcie¿ka dostêpu, istniej¹ce systemy plików, pojêcie partycji, jednostki alokacji, zawartoœæ katalogu, wyszukiwanie zawartoœci pliku na poziomie fizycznym w oparciu o œcie¿kê dostêpu na poziomie logicznym, regulowanie praw dostêpu do zasobów. 
+Æwiczenia: zarz¹dzanie zasobami u¿ytkownika w ramach SO Linux – kontrola dostêpu.
+
+Podsystem plików –poziom fizyczny i logiczny.
+ ------------------------------
+System plików - wymyœlono jako sposób na przechowywanie informacji na urz¹dzeniach WE/WY (urz¹dzeniach pamiêci zewnêtrznej).
+System plików = standard przechowywania danych na WE/WY, np. NTFS, FAT32, FAT16, FAT12, ext2, ext3, ext4, ... .
+
+Poziomy abstrakcji przy rozpatrywaniu zawartoœci HDD ferromagnetycznych:
+
+-NAJNI¯SZY- formatowanie niskopoziomowe: œcie¿ki, sektory - taki sam rozmiar k¹towy, taka sama iloœæ bajtów na sektor (albo zmienne). <== ten poziom jest obs³ugiwany przez sterowniki – jest poni¿ej systemu plików.
+
+== PRZEJŒCIOWY - podzia³ na pseudourz¹dzenia (partycje)
+
+-ŒREDNI- FORMATOWANIE WYSOKOPOZIOMOWE: powierzchniê dysku dzieli na tzw. jednostki alokacji - elementarne bloki informacji - blok jest najmniejsz¹ jednostk¹ inf., jak¹ operuje SO - np. bloki (Linux, Unix), klastry - Windows
+
+-NAJWY¯SZY (u¿ytkownika) - POZIOM LOGICZNY - u¿ytkownik widzi nazwy symboliczne (dla niego zrozumia³e - np. dane.txt) plików, katalogów, ... .
+
+POZIOM LOGICZNY PLIKÓW - LINUX:
+-udostêpnia zdefiniowane operacje na plikach.
+Mo¿na je rozpatrywaæ na dwóch poziomach:
+a) widziane z poziomu u¿ytkownika:
+odczytaj zawartoœæ - pliku (poprzez aplikacjê), katalogu, odczytaj informacjê o pliku, otwórz plik za pomoc¹ wybranej aplikacji, usuñ, kopiuj, przenieœ,... .
+b)  widziane z poziomu SO:
+polecenie u¿ytkownika jest rozbijane na szereg dzia³añ systemowych - np. polecenie u¿ytkownika :  otwórz plik "dane.txt" za pomoc¹ edytora tekstowego – powoduje wykonanie przez SO szeregu operacji: wyszukaj plik w systemie plików, otwórz w odpowiednim trybie, odczytaj do PAO, ... , zapisz, zamknij.
+
+Linux: 
+Struktura katalogów w Linux-ie:
+                 /                                           <= katalog g³ówny
+  ------------------------------
+  |     |           |          |
+  bin  home   dev    ...
+        |
+     st2_2022
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce nawigacji – przegl¹dania zawartoœci katalogów 
+i przemieszczania siê po strukturze katalogów:
+------------------------------
+ls   - zawartoœæ katalogu
+ls -l, ls -i, ...
+pwd    - inf. o katalogu roboczym (bie¿¹cym)
+cd  - zmiana katalogu roboczego  ( przechodzimy tylko w kierunkach góra-dó³)
+cd <œcie¿ka> - schodzenie do podkatalogów
+cd  .. - wejœcie piêtro wy¿ej
+cd  / - wejœcie do katalogu g³ównego
+cd     <=powrót do katalogu w³asnego (domowego)
+ls /home
+ls /home/st_2014
+/home/st_2014 - œcie¿ka bezwzglêdna 
+cd ./../..
+ls ./../../bin
+./../../bin - œcie¿ka wzglêdna
+. <= katalog bie¿¹cy
+.. <= katalog nadrzêdny
+(./a.out)
+tree – pokazuje zawartoœæ katalogu w postaci „drzewa”
+tree –d –L 1 / -  pokazuje tylko podkatalogi do poziomu zag³êbienia 1.
+SO dla ka¿dego u¿ytkownika wydziela specjalny katalog= jego w³asnoœæ (jest nazywany katalogiem domowym)
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce zarz¹dzania katalogami:
+------------------------------
+mkdir [<gdzie>/]<co> - utwórz
+mkdir [<œcie¿ka>/]nazwa
+np. mkdir Dane
+    mkdir /home/st_2014/Dane/Kopie
+rmdir [<gdzie>/]<co> - usuñ
+rmdir [<œcie¿ka>/]nazwa
+mv  nazwaStara  nazwaNowa – je¿eli w tym samym katalogu – zmiana nazwy
+(UWAGA - polecenie usuwa TYLKO puste katalogi).
+Zapis [ ... ]  - (coœ w nawiasach kwadratowych) - oznacza ¿e ta czêœæ polecenia mo¿e byæ opuszczona
+- w zale¿noœci od kontekstu.
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce zarz¹dzania plikami:
+---------------------------
+cp [<sk¹d>/]<co> <dok¹d>[/<nowa nazwa>] - kopiuj
+np. cp dane.txt kopia.txt - w tym samym katalogu pod inn¹ nazw¹
+mv [<sk¹d>/]<co> <dok¹d>[/<nowa nazwa>] - przenieœ
+rm [<sk¹d>/]<co> - usuñ
+
+Tworzenie plików - najczêœciej pliki zawieraj¹ wyniki pracy jakichœ aplikacji (choæ s¹ te¿
+pliki tworzone przez SO).
+
+Mo¿na utworzyæ plik za pomoc¹ edytora tekstowego.
+Linux posiada kilka takich edytorów. U¿yjemy prostego: nano.
+Aby utworzyæ plik podajemy polecenie:
+nano  Zestawienie2017.txt
+nastêpnie wpisujemy treœæ.
+Aby zakoñczyæ pracê i zapisaæ plik - naciskamy CTRL+X.
+Zapis poleceñ - na dole okienka - w notacji ^X,^C, itd. - symbol ^ oznacza klawisz CTRL.
+Czyli polecenie edytora: ^X, ... -oznacza "naciœnij CTRL+X".
+
+Aby obejrzeæ zawartoœæ pliku tekstowego mo¿na u¿yæ polecenia:
+cat  [œcie¿ka dostêpu] <nazwa pliku>
+np. 
+cat   /home/jan23/Zestawienie2017.txt
+cat   Zestawienie2017.txt
+
+Aby nie dublowaæ katalogów i plików jest mo¿liwoœæ tworzenia tzw. dowi¹zañ - sztywnych lub symbolicznych.
+Dowi¹zanie symboliczne oznacza odsy³acz do orygina³u (pewien analog skrótu w Windows) umieszczony w innym miejscu.
+
+Tworzymy za pomoc¹ polecenia:
+ln   –s   <dane zasobu>  Nazwa_Odsy³acza     
+
+Istotne jest podanie w³aœciwych œcie¿ek dostêpu - <dane zasobu> powinny zawieraæ œcie¿kê wzglêdn¹ -  od miejsca sk¹d ma byæ odsy³acz do zasobu m(albo bezwzglêdn¹),  Nazwa_Odsy³acza  - jak siê ma nazywaæ odsy³acz (ew. ze œcie¿k¹ dostêpu – je¿eli jego lokalizacja nie ma siê pokrywaæ z katalogiem bie¿¹cym).
+
+Filtry  stosowane w poleceniach (tzw. konwencja *):
+----------------------
+np. cp *.txt /Dane 
+    cp ???.txt /Dane
+    cp *a*  /Dane
+* - zastêpuje dowoln¹ iloœæ znaków
+? - zastêpuje dok³adnie jeden znak
+ [listaZnakow]  - jeden ze znaków z listy na tej pozycji
+np.   - [a-z]  dowolna ma³a litera
+ls   ??[a-k,p,t]*  - poka¿ zasoby o nazwie zawieraj¹cej na trzeciej pozycji jeden ze znaków: a-k,p,t, nazwa powinna zawieraæ przynajmniej trzy znaki.
+
+Kontrola dostêpu do zasobów:
+---------------------------
+W Linux-ie przyjêto zasadê gradacji dostêpu - trzy poziomy - w³aœciciel, grupa lub grupy (stowarzyszona), reszta.
+W kontekœcie ka¿dego z poziomów ustalane s¹ prawa do wykonywanych operacji:
+r - read - odczyt
+w - write - zapis
+x - execute - wykonanie.
+T¹ informacjê pokazuje np. polecenie ls   -l
+Konwencja pokazywania w ls -l:
+jest znaczek= jest prawo
+jest  ‘-‘ = brak prawa.
+
+ls  -l  <= inf. o plikach:
+-rw-rw-r-- 1 st_2014 st_2014   0 mar 1 14:18 aa
+drwxr-xr-x 2   ... .. Dokumenty
+-rw-rw-r--
+Pierwszy znak - tu '-'    - oznacza typ pliku.
+OBECNIE W SO - jest zasada - wszystko jest plikiem (ka¿dy zasób traktowany jest jak plik) - jako plik mo¿emy potraktowaæ: folder, klawiaturê, monitor, myszkê, partycjê, plik, katalog, socket (gniazdo), (urz¹dzenia blokowe, urz¹dzenia znakowe), ... . 
+Np.:
+-  - oznacza plik zwyk³y
+d - oznacza plik typu directory=katalog,
+ inne: l,b,c,p,s,... .
+W Linux-ie – pliki zwi¹zane z obs³ug¹ urz¹dzeñ zawarte s¹ w podkatalogu /dev:
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+Nastêpne - 3 x 3 - opis praw dostêpu do zasobu.
+Pytanie - które prawo pozwala na usuniêcie pliku?
+Polecenie 
+chmod <nowe prawa> <nazwa pliku>
+s³u¿y do zmiany praw.
+Nowe prawa - mo¿emy zapisaæ za pomoc¹ notacji 777:
+  111 111 111
+  rwx rwx rwx
+  101 100 110
+  r-x r-- rw-
+   5   4   6  => chmod 546 plik1
+  1=w³aœciciel -5 
+  2=grupa - 4
+  3= reszta - 6.
+Inny sposób zapisu polecenia
+-rwx r- x r- -  ...      plik
+ 111101100 => 754   chmod 754 plik1
+chcemy dodaæ prawo w dla grupy, usun¹æ prawo r dla reszty:
+chmod g+w,o-r plik
+u- user, g –group, o –other
+chmod u=rw,g=rx,o=r      plik22
+
+W shellu jest polecenie:
+ umask
+0022
+które pozwala sprawdziæ – jaka jest oraz zdefiniowaæ tzw. domyœln¹ maskê – opisuj¹c¹ jakie uprawnienia domyœlnie bêd¹ nadawane  dla nowo tworzonego zasobu. 
+Powy¿ej – domyœlna maska jest ustawiona jako 0022.
+Najstarszy bajt dotyczy specjalnych dodatkowych uprawnieñ – tzw. bitu lepkoœci, itp.
+
+Bit „lepkoœci” - sticky bit .
+Aby chroniæ plik/katalog przed usuniêciem przez u¿ytkownika, który nie jest w³aœcicielem pliku/katalogu mo¿na u¿yæ tzw. bitu lepkoœci (ang. sticky). Dla pliku/katalogu nadanie tego bitu wygl¹da nastêpuj¹co: 
+chmod 1751 nazwa_pliku 
+chmod o+t nazwa_katalogu 
+Je¿eli chcemy usun¹æ bit lepkoœci wydajemy polecenie: 
+chmod –t nazwa_pliku. 
+
+Np.:
+chmod 1700 aa
+ls -l
+razem 12
+-rwx-----T 1 mirek mirek   20 03-04 10:47 aa
+
+Obowi¹zuje zasada – suma uprawnieñ i maski ma daæ:
+- dla pliku 666
+- dla katalogu 777.
+Ustawienie maski:
+umask   033
+
+System plików – ró¿ne poziomy widzialnoœci (abstrakcji):
+-poziom formatowania niskiego – poziom urz¹dzeñ i ich kontrolerów
+-poziom fizyczny – poziom struktury fizycznej systemu plików
+-poziom logiczny – poziom u¿ytkownika. 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+Na zdjêciu – umowny schemat - dwa bity kodu litery ‘a’ ze zdania „Ala ma kota.” s¹ zawarte w obwiedzionych na czerwono domenach na noœniku dysku twardego.
+Jak system plików je wi¹¿e ze sob¹ – znak litery na monitorze i dwa bity na HDD?
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Z tego pytania wynikaj¹ kolejne.
+A) Jak w oparciu o œcie¿kê dostêpu na poziomie logicznym znaleŸæ zawartoœæ zasobu (pliku) na poziomie fizycznym?
+B) Co tak naprawdê powinno siê kojarzyæ z katalogiem, katalog jako plik, zawartoœæ katalogu?
+C) Co to jest i-wêze³? Polecenie ls  -i.   Odpowiedzi – na kolejnych zajêciach.
+
+Koncepcja – „wszystko jest plikiem”. Cel – unifikacja obs³ugi – typowe operacje na plikach.
+Pliki  nietypowe (drukarka, mysz, …) = plik specjalny. Operacje nie maj¹ce specjalnie sensu – zamienia siê na atrapy – jest operacja, ale inaczej siê wykonuje. 
+
+Systemy pomocy w Linuxie – man, info.
+-------------------------------
+Linux ma wbudowany podrêcznik systemowy, zawieraj¹cy 8 rozdzia³ów (dostêp – man):
+1- Polecenia u¿ytkownika
+2- Niskopoziomowe wywo³ania systemowe
+3- Dokumentacja wysokopoziomowych bibliotek Uniksa
+4- Informacja o interfejsach urz¹dzeñ i sterownikach
+5- Opisy plików (konfiguracji systemu)
+6- Gry
+7- Formaty plików, konwencje i kodowania (ASCII, przyrostki itd.)
+8- Polecenia systemowe i serwery
+Dostêp do zawartoœci mo¿na uzyskaæ poprzez polecenie:
+man <polecenie>  np.: man ls
+man –k <s³owo_kluczowe> np.: man –k sort
+Otrzymana informacja:
+comm(1) – compare ...   <= w nawiasach nr rozdzia³u
+qsort(3) – sorts an array 
+...
+Mo¿na siê odwo³aæ do polecenia z danego rozdzia³u, np.:
+man 5 passwd  - opis pliku passwd w rozdziale 5-tym.
+Wyjœcie – litera „q”.
+Jest równie¿ system pomocy GNU – pliki dokumentacji (dostêp – info).
+Dostêp do tych zasobów:
+info <polecenie>
+Wyjœcie – litera „q”.
+
+ZADANIA ÆWICZENIOWE
+1) Zalogowaæ siê na serwer: orfi.uwm.edu.pl .
+2) Utworzyæ podkatalogi:
+cwicz2
+ |___Rachunki
+ |___Teksty
+ |     |__Listy
+ |          |__doAni
+ |___Aplikacje
+       |__C
+       |__www
+       |__Shell
+            |__Skrypty
+Oznaczenia i terminy:  
+ .
+..
+/
+~
+œcie¿ka dostêpu
+Polecenia: pwd, cd, mkdir.
+Dwa sposoby tworzenia struktury katalogów:
+-ze zmian¹ katalogu roboczego:
+mkdir  cwicz2
+cd cwicz2
+mkdir Rachunki
+mkdir Teksty
+cd Teksty …
+-bez zmiany
+mkdir  cwicz2
+mkdir  cwicz2/ Rachunki
+mkdir  cwicz2/Teksty
+mkdir  cwicz2/Teksty/Listy …
+(lub – u¿ytkownik  jan23 ma swój domowy katalog – œcie¿ka dostêpu do niego:
+/home/jan23 – to polecenie ze œcie¿k¹ bezwzglêdn¹:  mkdir  /home/WMII/jan23/cwicz2…).
+3) Utworzyæ plik ZAPISKI_2018.txt w katalogu Teksty – wpisaæ swoje dane, datê i godzinê, informacjê o pogodzie oraz o miesi¹cu. Skopiowaæ go do podkatalogu C – nowa nazwa DaneNOWE.txt.
+-ze œcie¿k¹ wzglêdn¹:
+pwd   =>  /home/WMII/jan23
+cp  ./cwicz2/Teksty/ZAPISKI_2018.txt    ./cwicz2/Aplikacje/C/DaneNOWE.txt
+- ze œcie¿k¹ bezwzglêdn¹ – dla u¿ytkownika jan23:
+cp      /home/WMII/jan23/ cwicz2/Teksty/ZAPISKI_2018.txt					   			/home/WMII/jan23/cwicz2/Aplikacje/C/DaneNOWE.txt
+4) Utworzyæ dowi¹zanie symboliczne z katalogu Listy do katalogu Rachunki
+z nazw¹ Odsylacz_Rachunki.
+pwd   =>  /home/jan23  <= bie¿¹cy=domowy
+ln   –s   ../../Rachunki     ./cwicz2/Teksty/Listy/Odsylacz_Rachunki   
+../../Rachunki      - zapis – jak faktycznie trzeba przechodziæ od katalogu Listy do katalogu Rachunki.
+Mo¿na odsy³acza u¿yæ np.  w:  cd Odsylacz_Rachunki.
+cd  ./cwicz2/Teksty/Listy/
+cd Odsylacz_Rachunki => bêdziemy w katalogu Rachunki, cd .. – wracamy do katalogu Listy.
+ 
+5) Utworzyæ dowi¹zanie symboliczne z katalogu Listy do pliku DaneNOWE.txt w podkatalogu C z nazw¹ DoKopii.
+ln -s ../../Aplikacje/C/DaneNOWE.txt DoKopii   <= katalogiem roboczym jest katalog listy 
+(w kontekœcie polecenia).
+ 
+Mo¿na wykorzystaæ odwo³anie – np. w poleceniu cat.
+ 
+6) Skopiowaæ do podkatalogu Skrypty pliki: 
+-DaneNOWE.txt z podkatalogu C, 
+-ZAPISKI_2018.txt z podkatalogu Teksty.                   UWAGA – wygodnie jest zmieniæ katalog roboczy na domowy (je¿eli by³ inny) – polecenie  cd - bez parametrów.
+7. Usun¹æ podkatalog Shell z podkatalogami. UWAGA – polecenie rmdir usuwa pusty podkatalog, trzeba najpierw usun¹æ zawartoœæ podkatalogu Shell, potem dopiero mo¿na usun¹æ jego samego.
+ 
+rm ./cwicz2/Aplikacje/Shell/Skrypty/*
+rmdir ./cwicz2/Aplikacje/Shell/Skrypty/
+rmdir ./cwicz2/Aplikacje/Shell
+8) Zmieniæ prawa dostêpu:
+- do katalogu Listy - na - w³aœciciel: rwx, grupa i reszta - nic;
+ 
+(teraz jest: rwxr-xr-x  ->  111 101 101 -> 755, ma byæ:  700:
+chmod 700 ./cwicz2/Teksty/Listy/
+ 
+- do pliku DaneNOWE.txt na: w³aœciciel - rw-, grupa – r-x i reszta – r--,
+- do odsy³acza DoKopii na: w³aœciciel - rw-, grupa – r-x i reszta – r-x – co naprawdê modyfikuje polecenie – prawa samego odsy³acza czy prawa pliku? – prawa pliku.
+9) Utworzyæ plik Zapis.txt w podkatalogu Rachunki. Sprawdziæ na co pozwalaj¹ konkretne prawa dostêpu ustanowione dla pliku – r,w,x – tzn. jakie operacje w stosunku niego s¹ mo¿liwe: odczyt informacji o pliku (ls), odczyt zawartoœci pliku (cat), zmiana praw dostêpu, kopiowanie pliku, usuwanie pliku, przenoszenie (zmiana nazwy), modyfikacja zawartoœci (edycja), uruchamianie – pliki specjalne.
+10) Sprawdziæ wykorzystuj¹c podkatalog Rachunki – na co pozwalaj¹ konkretne prawa dostêpu ustanowione dla katalogu – r,w,x – tzn. na jakie operacje w stosunku do:
+-samego katalogu (nazwy, parametrów)
+-jego zawartoœci 
+one pozwalaj¹.
+Operacje na samym katalogu: usuniêcie, zmiana nazwy, zmiana praw dostêpu, odczyt danych o katalogu.
+Operacje na zawartoœci katalogu: odczyt zawartoœci katalogu, utworzenie podkatalogu, skopiowanie pliku do katalogu, usuniêcie pliku z katalogu, skopiowanie pliku z katalogu. 
+11) Ustaliæ jakie powinny byæ prawa dostêpu do katalogu aby móc:
+-do niego skopiowaæ plik
+-usun¹æ z niego plik
+-utworzyæ w nim podkatalog.
+12) Ustaliæ numery i-wêz³ów zasobów katalogu Teksty.
+13) Ustaliæ – jakie pliki w katalogu /dev odpowiadaj¹ urz¹dzeniom typu znakowego, a jakie blokowego.

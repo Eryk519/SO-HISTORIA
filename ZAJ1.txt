@@ -1,0 +1,236 @@
+Zajêcia 1.
+Temat: Podsystem zarz¹dzania Systemem Plików
+
+Z harmonogramu:
+1. Sprawy organizacyjne. Okreœlenie roli SO, jego funkcje, jego sk³adowe: podsystemy zarz¹dzania – plikami, PAO, procesami, u¿ytkownikami. Organizacja podsystemu plików - co to jest. Podsystem plików –poziom fizyczny i logiczny, ich powi¹zania.
+Æwiczenia: zarz¹dzanie zasobami u¿ytkownika w ramach SO Linux – polecenia pow³oki dotycz¹ce plików i katalogów.
+
+Œrodowiska pracy:
+      A)  -serwer: orfi.uwm.edu.pl          	administrator: Adam Wasilewski   D2/17
+Dostêp do serwera: program putty	  	aw@matman.uwm.edu.pl
+
+Konto:
+ ############################################################################
+| #  Jako login wpisujemy s[numer albumu bez zera na poczatku].
+| #  Np.: dla legitymacji z numerem 012345 loginem jest s12345
+| #       dla legitymacji 123456 jest s123456.
+| #  Przypomnienie lub wygenerowanie nowego hasla:
+| #
+| #     https://oispomoc.uwm.edu.pl/ssp/
+| #
+| #  Pomoc:
+| #     ois@matman.uwm.edu.pl
+| #
+| #  Nowe haslo wysylane jest na konto w domenie @student.uwm.edu.pl
+| #
+| ############################################################################
+ 
+Terminal tekstowy programu  putty:
+
+
+
+
+
+
+
+
+
+
+
+
+Polecenia dla Linux-a wydajemy wykorzystuj¹c jêzyk typu shell  - o nazwie bash.
+
+   B)  - maszyna wirtualna.
+
+
+Strona kursu:
+Kurs bêdzie umieszczony na platformie: moodle.uwm.edu.pl .
+Wydzia³ Matematyki i Informatyki
+Katedra Informatyki i Badañ Operacyjnych
+Kurs – Systemy Operacyjne NS Wiosna 2022
+
+
+Podstawowe polecenia shella.
+
+Przyk³adowe polecenia:
+who
+who am i
+ls
+pwd
+tree
+ls
+ls /
+ps
+
+Zakoñczenie pracy: exit.
+
+Podsystem zarz¹dzania plikami.
+
+Pojêcie pliku - „worek z zawartoœci¹ i etykiet¹”.
+Uniwersalizm: „wszystko jest plikiem”.
+
+System plików - wymyœlono jako sposób na przechowywanie informacji na urz¹dzeniach WE/WY (urz¹dzeniach pamiêci zewnêtrznej).
+System plików = standard przechowywania danych na WE/WY, np. NTFS, FAT32, FAT16, FAT12, ext2, ext3, ext4, nfs, f5, ... .
+
+Mo¿na analizowaæ dzia³anie systemu plików na ró¿nych poziomach.
+
+NAJWY¯SZY - przeznaczony dla u¿ytkownika (tzw. POZIOM LOGICZNY) - u¿ytkownik ma widzieæ system plików w taki sposób i na tym poziomie nim zarz¹dzaæ. 
+Ten poziom obejmuje strukturê katalogów - drzewiast¹ - i przechowywane w katalogach pliki.
+
+U¿ytkownik ma do swojej dyspozycji zdefiniowane operacje na plikach i katalogach:
+odczytaj zawartoœæ pliku (poprzez aplikacjê), katalogu, odczytaj informacjê o pliku, otwórz plik za pomoc¹ wybranej aplikacji, usuñ, kopiuj, przenieœ, utwórz katalog, zmieñ w³aœciciela zasobu, ... .
+Struktura katalogów w Linux-ie:
+                 /   <= katalog g³ówny
+  ------------------------------
+  |     |           |          |
+  bin  home   ...
+         |
+     st2_2022
+SO dla ka¿dego u¿ytkownika wydziela specjalny katalog= jego w³asnoœæ (jest nazywany katalogiem domowym)
+
+Natomiast gdyby wnikliwie przyjrzeæ siê systemowi plików to trzeba by przeanalizowaæ mechanizmy dzia³aj¹ce na ró¿nych poziomach widzenia tego archiwum.
+Przy za³o¿eniu ¿e system plików jest przechowywany na dysku twardym ("tradycyjnym" - z kr¹¿kiem ferromagnetycznym) - mo¿na przyjrzeæ siê jak to dzia³a na kilku poziomach.
+
+Poziomy abstrakcji przy rozpatrywaniu HDD:
+-NAJNI¯SZY- jak s¹ umieszczane bity na powierzchni kr¹¿ka - formatowanie niskopoziomowe: œcie¿ki, sektory - jak s¹ rozmieszczane œcie¿ki, w jakich miejscach nastêpuje zapis, itd. 
+
+<--Od tego miejsca zaczyna siê w³aœciwie system plików.--->
+
+-PRZEJŒCIOWY - podzia³ na pseudourz¹dzenia (partycje) - powierzchniê dysku dzieli siê programowo na czêœci.
+-ŒREDNI- FORMATOWANIE WYSOKOPOZIOMOWE: powierzchniê partycji dzieli na tzw . jednostki alokacji, do których bêdzie zapisywana informacja  - nosz¹ one ró¿ne nazwy  w ró¿nych SO - jednostka alokacji - jest najmniejsz¹ porcj¹ inf., jak¹ operuje system plików - odczytuje b¹dŸ zapisuje ca³¹ jednostkê - np. bloki (Linux, Unix), klastry - Windows
+-NAJWY¯SZY (u¿ytkownika) - u¿ytkownik widzi nazwy symboliczne (dla niego zrozumia³e - np. nazwa pliku: dane.txt) plików, katalogów, na nich wykonuje operacje, ... .
+
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce nawigacji – przegl¹dania zawartoœci katalogów i przemieszczania siê po strukturze katalogów:
+---------------------------
+ls   - zawartoœæ katalogu
+ls -l, ls -i, ...
+pwd    - inf. o katalogu roboczym (bie¿¹cym)
+cd  - zmiana katalogu roboczego
+cd <œcie¿ka> - schodzenie do podkatalogów
+cd  .. - wejœcie piêtro wy¿ej
+cd  / - wejœcie do katalogu g³ównego
+cd     <=powrót do katalogu w³asnego (domowego)
+ls /home
+ls /home/st_2014
+/home/st_2014 - œcie¿ka bezwzglêdna 
+cd ./../..
+ls ./../../bin
+./../../bin - œcie¿ka wzglêdna
+.       <= katalog bie¿¹cy
+..     <= katalog nadrzêdny
+/      <= katalog g³ówny
+~      <= katalog domowy
+
+Œcie¿ka – zapis – przez jakie podkatalogi trzeba „przejœæ” - aby dostaæ siê z jednego katalogu do drugiego, albo odwo³aæ siê z katalogu do pliku. Przechodzenie po drzewie katalogów jest mo¿liwe tylko w kierunku „góra – dó³”.
+Œcie¿ka bezwzglêdna – œcie¿ka do danego zasobu od katalogu g³ównego.
+Œcie¿ka wzglêdna -  œcie¿ka do danego zasobu od pewnego katalogu (mo¿e byæ bie¿¹cy).
+
+Polecenie: ls -al pokazuje rozszerzon¹ informacjê o zasobach, np.:
+drwxr-xr-x  7 mirek mirek 4096 03-04 10:47 .
+drwxr-xr-x 88 root  root  4096 03-03 13:30 ..
+-rw-------  1 mirek mirek  354 03-03 12:30 .bash_history
+-rw-r--r--  1 mirek mirek  220 02-18 12:17 .bash_logout
+
+Pierwszy znak – okreœla rodzaj pliku.
+rodzaje plików:
+„-”   plik zwyk³y
+d      katalog
+c       urz¹dzenia o dostêpie znakowym
+b      urz¹dzenia o dostêpie blokowym
+l       linki, do³¹czenia
+
+Nastêpne 9 znaków – okreœlaj¹ tzw. uprawnienia – dotycz¹ce danego zasobu.
+uprawnienia podstawowe:
+r      czytanie
+w    pisanie, mo¿liwoœæ  zmian
+x     wykonywanie
+
+3 grupy uprawnieñ  
+pierwsza dotyczy w³aœciciela pliku
+druga    dotyczy grupy (w³aœciciela grupowego)
+trzecia  dotyczy wszystkich pozosta³ych u¿ytkowników
+
+Pomoc do poleceñ:
+man polecenie        np.: man ls
+Wyjœcie z man- klawisz q.
+
+ 
+
+  Dwukropek w lewym dolnym rogu mówi o tym, ¿e litera „q” pozwoli wyjœæ z tego trybu.
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce plików:
+---------------------------
+cp [<sk¹d>/]<co> <dok¹d>[/<nowa nazwa>] - kopiuj
+np. cp dane.txt kopia.txt - w tym samym katalogu pod inn¹ nazw¹
+mv [<sk¹d>/]<co> <dok¹d>[/<nowa nazwa>] - przenieœ
+rm [<sk¹d>/]<co> - usuñ
+
+UWAGA – czêœæ polecenia zapisana w [ ...  ] – jest opcjonalna.
+
+Tworzenie plików - najczêœciej pliki zawieraj¹ wyniki pracy jakichœ aplikacji (choæ s¹ te¿
+pliki tworzone przez SO).
+
+Mo¿na utworzyæ plik za pomoc¹ edytora tekstowego.
+Linux posiada kilka takich edytorów. U¿yjemy prostego: nano.
+Aby utworzyæ plik podajemy polecenie:
+nano  Zestawienie2017.txt
+nastêpnie wpisujemy treœæ.
+Aby zakoñczyæ pracê i zapisaæ plik - naciskamy CTRL+X.
+Zapis poleceñ - na dole okienka - w notacji ^X,^C, itd. - symbol ^ oznacza klawisz CTRL.
+Czyli polecenie edytora: ^X, ... -oznacza "naciœnij CTRL+X".
+
+Aby obejrzeæ zawartoœæ pliku tekstowego mo¿na u¿yæ polecenia:
+cat  [œcie¿ka dostêpu] <nazwa pliku>
+np. 
+cat   /home/jan23/Zestawienie2017.txt
+cat   Zestawienie2017.txt
+
+Interpretator poleceñ Shell - polecenia dotycz¹ce katalogów:
+------------------------------
+mkdir [<gdzie>/]<co> - utwórz
+mkdir [<œcie¿ka>/]nazwa
+np. mkdir Dane
+    mkdir /home/st_2014/Dane/Kopie
+rmdir [<gdzie>/]<co> - usuñ
+rmdir [<œcie¿ka>/]nazwa
+(UWAGA - polecenie usuwa TYLKO puste katalogi).
+Zapis [ ... ] (coœ w nawiasach kwadratowych) - oznacza ¿e ta czêœæ polecenia mo¿e byæ opuszczona
+- w zale¿noœci od kontekstu.
+
+ZADANIA ÆWICZENIOWE
+1) Zalogowaæ siê na serwer: orfi.uwm.edu.pl .
+2) Utworzyæ w katalogu domowym podkatalog:  Listy_do_Jacka
+
+3) Utworzyæ list za pomoc¹ edytora nano i zapisaæ go do pliku List1, plik ma siê 
+znaleŸæ w utworzonym katalogu. Obejrzeæ zawartoœæ utworzonego pliku.
+Uruchomienie tego edytora: 
+nano <nazwa_pliku>  .
+Potem wpisujemy tekst.
+Wydawanie poleceñ:
+spis na dole - zapis typu ^C - oznacza naciœniêcie dwóch  klawiszy CTRL i C naraz.
+
+cat Listy_do_Jacka/List1
+Przyk³adowa treœæ:
+Drogi Jacku
+W³aœnie koñczymy zajêcia.
+A ciebie nie by³o - czemu?
+Pozdrawiam
+Józef
+4) Utworzyæ w katalogu domowym podkatalog:  Kopie
+5) Skopiowaæ do niego utworzony list pod nazw¹:  Kopia_1.02.2019
+ 
+6) Usun¹æ plik List1.
+7) Za pomoc¹ nano napisaæ nowy list z ¿yczeniami œwi¹tecznymi, zapisaæ go do pliku: Zyczenia_NRok_2019 w katalogu Listy_do_Jacka
+8) Utworzyæ podkatalog Szablony w katalogu domowym, skopiowaæ do niego utworzony w p. 7 plik ze zmian¹ nazwy na: NowyRok-wzor.
+9) Usun¹æ plik Zyczenia_NRok_2019.
+10) Utworzyæ w katalogu Listy_do_Jacka podkatalogi:
+Listy_do_Jacka
+|___Stare
+|___Sluzbowe
+|	|___Firma
+|	|___ZUS
+|___Prywatne
+	|___Zyczenia
+		|___Nowy_Rok
+

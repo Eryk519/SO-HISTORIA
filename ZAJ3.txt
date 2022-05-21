@@ -1,0 +1,421 @@
+Temat: 3 (NS). Podsystem plików – przeszukiwanie i kontrola zasobów.
+Na zajêciach: Podsystem plików – przeszukiwanie i kontrola zasobów, jak system wyszukuje zasób na poziomie fizycznym w oparciu o œcie¿kê dostêpu. Mechanizm montowania plików.
+Æwiczenia: zarz¹dzanie zasobami u¿ytkownika w ramach SO Linux.  MC. Strumienie WE, WY, WY b³êdów. £¹czenie poleceñ (potoki poleceñ). Przeszukiwanie zasobów - polecenie find. Systemy pomocy w Linuxie – man, info. Plik fstab. 
+Zawartoœæ
+Zawartoœæ	1
+Poziom logiczny a poziom fizyczny:	1
+mc – aplikacja Midnight Commander.  WY – F10.	3
+Mechanizm WE/WY - strumienie.	4
+£¹czenie poleceñ (pipeline – strumieñ poleceñ).	6
+Polecenie find.	7
+Systemy pomocy w Linuxie – man, info.	10
+Plik fstab.	10
+ZADANIA:	11
+
+Poziom logiczny a poziom fizyczny:
+A) Co tak naprawdê powinno siê kojarzyæ z katalogiem, katalog jako plik, zawartoœæ katalogu?
+Katalog – specjalny plik – do obs³ugi konstrukcji podkatalog w ramach struktury katalogów. Je¿eli to jest plik – to co jest w nim zapisane ?  Zawartoœæ  katalogu – pliki i podkatalogi w nim siê znajduj¹ce. Ale katalog – to plik.  Przyk³ad: podkatalog „Dane”:
+
+
+
+
+
+
+
+
+
+Zawartoœæ katalogu Dane:  podkatalogi Wyniki, Testy;   pliki: dane1, dane2.
+Na poziomie fizycznym systemu plików mówi siê o tzw. jednostkach alokacji – jest to najmniejsza porcja danych pliku, któr¹ system plików odczytuje/zapisuje na noœniku jako sk³adow¹ pliku. W systemach Linuxowych jest to blok, w FAT – klaster, itd.
+System  ext2 – Linux.
+Co znajduje siê w pliku uto¿samianym z tym katalogiem w pewnym uproszczeniu – pokazuje tabela:
+        Tabela 1
+Tabela pozwala na przejœcie z poziomu logicznego systemu plików na poziom fizyczny. Lewa kolumna – poziom logiczny – nazwa zasobu, prawa – numer odpowiadaj¹cego zasobowi i-wêz³a w tablicy i-wêz³ów – poziom fizyczny.  
+Przy przystosowaniu partycji ( pseudourz¹dzenia ) do danego systemu plików wykonuje siê  tzw. formatowanie wysokopoziomowe, w czasie którego tworzona jest stosowna tabela – dla ext2 tabela i-wêz³ów o okreœlonym rozmiarze oraz ustalane s¹ jednostki alokacji – w ext2 bloki – na ca³ej pozosta³ej powierzchni. Zasada w ext2 – 1 plik <– > 1 i-wêze³.
+Struktura partycji:         
+                                                                       277   ...   289 ...   333
+	55	122	234	1073	2341																									
+      Tabela i-wêz³ów                   
+  jednostki alokacji = bloki
+W i-wêŸle zapisane s¹ m. in. numery bloków, w których znajduje siê treœæ pliku.
+Je¿eli dla pliku opisuj¹cego zawartoœæ katalogu Dane przypisany jest i-wêze³ o numerze 55, to w nim s¹ zapisane numery bloków, gdzie zapisana jest „treœæ” tego pliku.  Je¿eli te bloki to: 277,289,333 – to odczytuj¹c ich zawartoœæ – na poziomie logicznym otrzymamy Tabelê 1.
+Aby odczytaæ np. zawartoœæ pliku dane1 – nale¿y w Tabeli 1 znaleŸæ numer i-wêz³a mu odpowiadaj¹cy, w i-wêŸle znaleŸæ numery bloków zawieraj¹ce treœæ pliku, nastêpnie odczytaæ zawartoœæ tych bloków.
+System FAT – MS DOS, Windows.
+Co znajduje siê w pliku uto¿samianym z tym katalogiem w pewnym uproszczeniu – tabela:
+        Tabela 1
+
+
+
+
+
+Tabela pozwala na przejœcie z poziomu logicznego systemu plików na poziom fizyczny. Lewa kolumna – poziom logiczny – nazwa zasobu, prawa – numer odpowiadaj¹cego zasobowi pierwszego klastra  pliku w tablicy FAT – poziom fizyczny.  Noœnik jest podzielony na  klastry – ile klastrów tyle komórek w tabeli FAT, klastry mog¹ zawieraæ:
+-pocz¹tek pliku,
+-zawartoœæ (œrodkowa)
+-koniec pliku.
+B) Jak w oparciu o œcie¿kê dostêpu na poziomie logicznym znaleŸæ zawartoœæ zasobu (pliku) na poziomie fizycznym?
+Np.  -  cat   /home/WMII/s123456/dane.txt
+Œcie¿ka: /home/WMII/s123456/dane.txt  =>   /     home     WMII    s123456     dane.txt
+System plików zaczyna  od /  - katalog g³ówny  - przeszukuje / - czy tam jest WMII …
+
+C) Co to jest i-wêze³? Polecenie ls  -i.
+Koncepcja – „wszystko jest plikiem”. Cel – unifikacja obs³ugi – typowe operacje na plikach.
+Pliki  nietypowe (drukarka, mysz, …) = plik specjalny. Operacje nie maj¹ce specjalnie sensu – zamienia siê na atrapy – jest operacja, ale inaczej siê wykonuje. 
+OBECNIE W SO - jest zasada - wszystko jest plikiem (ka¿dy zasób traktowany jest jak plik) - jako plik mo¿emy potraktowaæ: folder, klawiaturê, monitor, myszkê, partycjê, plik, katalog, socket (gniazdo), (urz¹dzenia blokowe, urz¹dzenia znakowe), ... . 
+Np.:
+-  - oznacza plik zwyk³y
+d - oznacza plik typu directory=katalog,
+inne: l,b,c,p,s,... .
+
+Pytania.
+1. W 10 pierwszych komórkach adresowych zapisuje siê numery bloków z danymi pliku, w 11-tej komórce zapisuje siê adres bloku zawieraj¹cego adresy bloków z danymi - adresowanie poœrednie - 2 poziomy, je¿eli tego za ma³o - w 12 komórce zapisuje siê adres bloku, który zawiera adresy bloków, które zawieraj¹ adresy bloków z danymi, itd. - do 15-j komórki adresowej. 
+2. Czy rozmiar pliku jest ograniczony w danym systemie plików? Czy – je¿eli noœnik pozwoli – to mo¿na tyle zapisaæ ile siê zmieœci na noœniku?
+Tyle mo¿na zapisaæ – ile obs³u¿y adresacja bloków.
+mc – aplikacja Midnight Commander.  WY – F10.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dzia³a jednoczeœnie linia rozkazów – mo¿na podawaæ polecenia tekstowe dla shella.
+CTRL +o – zwija/ rozwija okienko MC. 
+ 
+Polecenia.
+1. Za pomoc¹ MC proszê utworzyæ strukturê katalogów w katalogu domowym:
+Dane
+  |__ Listy 22
+  |__ teksty21.03
+              |__ testyNOWE
+2. Do katalogu testyNOWE skopiowaæ pliki o nazwach zaczynaj¹cych siê na jedn¹ z liter -  od d do s.
+F9 – Plik – Zaznacz grupê – wpisujemy filtr – F5 kopiuj.
+
+Mechanizm WE/WY - strumienie.
+
+**   Chcemy aby polecenie ls zapisywa³o informacjê do pliku „DANE”.
+
+Polecenie ls  „produkuje” jako wynik tekst.
+
+Mamy urz¹dzenia koñcowe (monitor, konsola, klawiatura, mysz) oraz mechanizmy przekazuj¹ce dane na te urz¹dzenia (strumienie).
+Strumienie:
+-WE - stdin - in
+-WY - stdout -out
+-WY b³êdów - stderr - err.
+ls   > DANE
+cat DANE
+
+**   Chcemy aby zapisywaæ informacjê o b³êdach wykonania polecenia do pliku „Problemy”.
+
+O jakie b³êdy chodzi i co trafia na to wyjœcie?
+B³êdy - (w pracy z konsol¹) z³e polecenia. Na WY b³êdów - bêdzie trafia³a reakcja SO - shella => bêd¹ trafia³y komunikat o b³êdach.
+W danej chwili strumienie s¹ ukierunkowane na konkretne urz¹dzenia. Mo¿na to ukierunkowanie zmieniæ (przekierowaæ strumieñ).
+Strumienie - na jakie urz¹dzenia:
+-WE - klawiatura
+-WY - konsola
+-WY b³êdów – konsola.
+
+Czyli mamy:
+-shell – strumieñ WY – konsola
+-klawiatura – strumieñ WE – shell.
+
+Przekierowanie:
+-shell – strumieñ WY – plik
+
+-WY - z konsoli na plik "dane123":
+ls  >  dane123 <= znak ">" przekierowuje.
+-WE - z klawiatury na plik "dane123":
+cat < dane123
+-WY b³êdów - z konsoli tekstowej (monitora) na plik "dane123":
+ls-l   2> dane123
+Info:
+strumienie s¹ traktowane jako pliki specjalne => maj¹ przyporz¹dkowane i-wêz³y - ich numery:
+-WE – 0
+-WY - 1
+-WY b³êdów - 2.
+
+Jak w jednym poleceniu przekierowaæ:
+-WY do jednego pliku, WY b³êdów do drugiego?
+ls-l     >gg     2>bledy  <= WY normalne do pliku gg, WY b³êdów do pliku bledy.
+
+-WY i WY b³êdów do jednego pliku?
+Ls-l    >    gg     2>&1
+Przyk³ad: chcemy obejrzeæ zawartoœæ wszystkich plików 
+w bie¿¹cym katalogu:
+cat   *            <= Patrz „konwencja *”
+cat  *  >WYNIKI   2>NieTAK
+cat  *  > WSZYSTKO  2>&1
+Uwaga:
+-przekierowanie ">" powoduje stworzenie nowej zawartoœci pliku.
+-przekierowanie ">>" powoduje dopisanie (na koñcu) do istniej¹cej treœci.
+
+Za pomoc¹ poni¿szej sekwencji dzia³añ mo¿na stworzyæ plik tekstowy "dane":
+cat > dane
+<treœæ>
+CTRL+Z (polecenie zapisu i zamkniêcia = program cat pozostaje uruchomiony).
+
+** Chcemy wypisaæ uwagê, komentarz.
+Polecenie:
+echo <komentarz>
+powoduje wyœwietlenie komentarza na monitorze.
+Mo¿na przekierowaæ ten komentarz do pliku, np.:
+echo CZESC > dane
+
+Np.:
+echo   ls  -l
+echo  ‘ls –l’
+echo  `ls –l`  <= “krzywe apostrofy – pod tyld¹” – wykonanie polecenia
+echo „ls –l”  - zwyk³y tekst
+echo   „$HOME” <= zawartoœæ zmiennej
+ 
+ 
+O zmiennych – za tydzieñ.
+
+Mo¿na te¿ za pomoc¹ strumieni WY po³¹czyæ kilka plików i zapisaæ go do jednego – je¿eli s¹ pliki dane1, testy22 i list11 to polecenie: 
+
+cat   dane1   testy22   list11  > archiwum
+
+spowoduje ich zapis do pliku archiwum.
+Polecenia: head  i  tail pokazuj¹ 10 pierwszych i 10 ostatnich linii pliku (mo¿na iloœæ wyœwietlanych linii zmieniæ), np.:
+head dane1
+Ale mo¿na te¿ wykorzystaæ przekierowanie strumienia WE:
+head < dane1
+head < dane1 testy22 list11 > razem  .
+Polecenie:
+cat  *   1> dane  2>bledy
+
+Polecenia:
+1. Za pomoc¹ strumieni zapisaæ do jednego pliku – nazwa RAZEM - zawartoœci plików o nazwach zaczynaj¹cych siê na a, k,p,t – nie wiêcej zawieraj¹cych ni¿ 6 znaków.
+
+** Jak zapisaæ uogólnienie – np. wszystkie pliki?
+
+Filtry  stosowane w poleceniach (tzw. konwencja *):
+----------------------
+np. cp *.txt    ./Dane 
+    cp ???.txt   ./Dane
+    cp *a*         ./Dane – litera a w nazwie na dowolnej pozycji
+* - zastêpuje dowoln¹ iloœæ znaków
+? - zastêpuje dok³adnie jeden znak
+ [listaZnakow]  - jeden ze znaków z listy na tej pozycji
+np.   - [a-z]  dowolna ma³a litera
+ls   ??[a-k,p,t]*  - poka¿ zasoby o nazwie zawieraj¹cej na trzeciej pozycji jeden ze znaków: a-k,p,t, nazwa powinna zawieraæ przynajmniej trzy znaki.
+
+£¹czenie poleceñ (pipeline – strumieñ poleceñ).
+-------------------------------------------------------------
+Wynik dzia³ania poprzedzaj¹cego polecenia staje siê danymi WE dla nastêpnego. Sk³adnia:
+<polecenie> |  <polecenie> | <polecenie> …
+Wa¿ne:
+<polecenie>         |         <polecenie>                |          <polecenie> 
+     wynik  => WE        wynik => WE        wynik
+Np.: chcemy policzyæ ile plików i katalogów jest w domowym katalogu – 
+wyœwietlanie zawartoœci katalogu – polecenie ls, przeliczanie – ile wierszy, 
+s³ów i znaków jest w pliku – polecenie wc.
+ 
+
+Polecenie wc (word counter) - liczy wiersze, s³owa, znaki, np.:
+wc dane123
+(wc -l, wc -w, wc -c , np.: 
+wc -l dane123).
+£¹czenie poleceñ - symbol "|":
+ls -l  |  wc –l
+** Jak policzyæ – ile wierszy zawiera dany plik – np. WSZYSTKO?
+wc  -l   WSZYSTKO
+** Jak policzyæ – ile plików i podkatalogów (razem) jest w bie¿¹cym 
+katalogu?
+Polecenie  ls  pokazuje  to o co nam chodzi (ls >katalog pokazuje, ¿e 
+ono podaje wynik wierszami). Trzeba te wiersze policzyæ:
+ls > katalog
+wc katalog
+mo¿na krócej:
+ls   |  wc –l 
+Wygodnym poleceniem jest polecenie:
+less  <= stronicuje zawartoœæ pliku.
+Np.: polecenie
+ps –A  <=pokazuje uruchomione zadania w SO
+ps –A   | less  <= pokazuje ze stronicowaniem (przegl¹danie – 
+strza³ki góra-dó³), WY (w lewym dolnym rogu jest „:”)
+– naciskamy ‘q’.
+
+Polecenie find.
+----------------
+Polecenie find - s³u¿y do wyszukiwania zasobów (ró¿nych plików) 
+w-g ró¿nych kryteriów.
+Sk³adnia:
+find   <gdzie>   <kryteria>
+np.:
+find   .   -name    WSZYSTKO
+find   .  –iname   “W*”
+
+Kryteria:
+-amin, -atime, -cmin, -ctime, -mmin, -mtime  - szukanie zasobów: -a – 
+do których by³ dostêp, -c - które by³y zmieniane ( zawartoœæ albo inf. o pliku w wi-wêŸle), -m - zawartoœæ których by³a 
+modyfikowana, 
+[miroslaw.zuzel@orfi ~]$ chmod 700 PLIK899
+[miroslaw.zuzel@orfi ~]$ find . -cmin -10
+./PLIK899
+[miroslaw.zuzel@orfi ~]$ find . -mmin -10
+[miroslaw.zuzel@orfi ~]$
+podaje siê te¿ przedzia³ czasowy:  min - minuty, time - dni, 
+podaje siê te¿ ile jednostek np. -5, 5, +5  <= mniej ni¿ 5, dok³adnie 5, wiêcej ni¿ 5
+np.:
+find  .  -atime +5 
+Przyk³ad –  o 14.30 zosta³ utworzony plik plik1 , plik KKKK zosta³ utworzony o 15.00.
+O 15.02 dokonano zmiany praw dostêpu do pliku  plik1, o 15.03 wydano polecenie:
+find . –cmin -5
+o 15.04 polecenie:
+find . –mmin -5
+Wyniki – zrzut ekranu:
+ 
+-empty - puste pliki
+find   .  -empty
+Pusty plik - nie ma zawartoœci - jego rozmiar = 0.
+-maxdepth <ile>, -mindepth <ile>  <= do jakiego (od jakiego) poziomu zag³êbienia w podkatalogi przeszukujemy (ten parametr piszemy jako pierwszy w poleceniu)
+np.: 
+find  .  -maxdepth  1 –empty
+find   .  –maxdepth 1   - pokazuje tzw. pliki ukryte – ich nazwa 
+zaczyna siê od kropki.
+-maxdepth 3
+-name <nazwa> <= w-g nazwy 
+find . -maxdepth 1 -name "P*"
+
+-iname <nazwa> <= w-g nazwy (mo¿na z ?,*)
+-inum <numer> <= pliku z podanym nr-em i-wêz³a
+-perm <prawa dostêpu> , np. -perm 741
+np.: 
+find  .  -perm  -u=x  <= pliki dla których w³aœciciel ma prawo x;
+(u - user, g -grupa, o - reszta - jak w chmod)
+find . -perm -u=r,g=w
+
+-type <typ>, np.: -type f - zwyk³e pliki
+(typy: f -zwyk³y, d-katalog, l- dowi¹zanie symboliczne, b - urz. blokowe,
+ c - urz. znakowe, s - socket (gniazdo), p - pipe, ...)
+urz. blokowe - wymiana danych z nim (miêdzy pamiêci¹ operacyjn¹ a tym urz¹dzeniem) odbywa siê blokami – np. dysk twardy,
+urz. znakowe - wymiana danych z nim odbywa siê znakami – np. klawiatura,
+np.: 
+find  /dev -type b
+sda <= 1-szy dysk SCSI
+sdb, sdc
+hda <= 1-szy dysk IDE
+sda1 <= 1-sza partycja na 1-szym dysku
+sdc1,sdc2, itd.
+[miroslaw.zuzel@orfi ~]$ ls -l /dev
+razem 0
+crw------- 1 root root  10,  59 cze 17  2020 autofs
+drwxr-xr-x 3 root root       60 cze 17  2020 bus
+lrwxrwxrwx 1 root root        3 cze 17  2020 cdrom -> hdc
+lrwxrwxrwx 1 root root        3 cze 17  2020 cdrom-hdc -> hdc
+crw------- 1 root root   5,   1 lut 25 11:12 console
+lrwxrwxrwx 1 root root       11 cze 17  2020 core -> /proc/kcore
+drwxr-xr-x 6 root root      120 cze 17  2020 cpu
+crw------- 1 root root  10,  63 cze 17  2020 cpu_dma_latency
+drwxr-xr-x 6 root root      120 cze 17  2020 disk
+lrwxrwxrwx 1 root root        3 cze 17  2020 dvd -> hdc
+...
+brw-r----- 1 root disk   3,   3 cze 17  2020 hda3
+brw-r----- 1 root disk   3,   4 cze 17  2020 hda4
+...
+brw-rw---- 1 root disk  22,   0 cze 17  2020 hdc
+crw------- 1 root root 253,   0 cze 17  2020 hidraw0
+crw------- 1 root root  10, 228 cze 17  2020 hpet
+prw------- 1 root root        0 cze 17  2020 initctl
+drwxr-xr-x 2 root root      200 cze 17  2020 input
+lrwxrwxrwx 1 root root        9 cze 17  2020 js0 -> input/js0
+
+-user <identyfikator> <= plików  podanego u¿ytkownika (podaje siê login lub jego nr id).
+
+Wynikiem polecenia find jest tekst.
+
+¯eby dokonaæ operacji na wyszukanych plikach trzeba u¿yæ:
+-exec <polecenie> {}  \;  (lub  -ok <polecenie> {} \; ).
+np.:
+wyszukaj i poka¿ zawartoœæ plików zwyk³ych w bie¿¹cym katalogu:
+find  . -maxdepth 1 -type f -exec cat {} \;
+find  . -empty -exec ls -l {} \;
+-ok <polecenie> {}  \; <= shell bêdzie wymaga³ potwierdzenia wykonania polecenia dla ka¿dego zasobu oddzielnie, np.:
+ 
+Inny przyk³ad:
+find  . -maxdepth 1 -type f -exec rm {} \;   <= usuñ wszystkie zwyk³e pliki
+
+find . -type f -exec cat {} \;
+Polecenie locate.
+----------------
+Podobne do find polecenie:
+locate <parametry> <wzorzec>
+Polecenie nie szuka samych plików, przeszukuje indeks plików tworzony cyklicznie przez system.
+Przyk³ad:
+locate –b ‘\aa’  (wczeœniej plik zosta³ utworzony w bie¿¹cym katalogu).
+
+Systemy pomocy w Linuxie – man, info.
+-------------------------------
+Linux ma wbudowany podrêcznik systemowy, zawieraj¹cy 8 rozdzia³ów:
+1- Polecenia u¿ytkownika
+2- Niskopoziomowe wywo³ania systemowe
+3- Dokumentacja wysokopoziomowych bibliotek Uniksa
+4- Informacja o interfejsach urz¹dzeñ i sterownikach
+5- Opisy plików (konfiguracji systemu)
+6- Gry
+7- Formaty plików, konwencje i kodowania (ASCII, przyrostki itd.)
+8- Polecenia systemowe i serwery
+
+Dostêp do zawartoœci mo¿na uzyskaæ poprzez polecenie:
+man <polecenie>  np.: man ls
+man –k <s³owo_kluczowe> np.: man –k sort
+Otrzymana informacja:
+comm(1) – compare ...   <= w nawiasach nr rozdzia³u
+qsort(3) – sorts an array 
+...
+Mo¿na siê odwo³aæ do polecenia z danego rozdzia³u, np.:
+man 5 passwd  - opis pliku passwd w rozdziale 5-tym.
+WY: q  .
+Jest równie¿ system pomocy GNU – pliki dokumentacji.
+Dostêp do tych zasobów:
+info <polecenie>
+WY: q  .
+
+Plik fstab.
+-----------
+Plik tekstowy – konfiguracyjny systemu plików.
+W nim opisane s¹ partycje i w jaki sposób maj¹ byæ po³¹czone na poziomie logicznym – takie ³¹czenie nazywa siê montowaniem. Operacja montowania z wykorzystaniem tego pliku jest wykonywana w momencie uruchomienia systemu. Mo¿na w trakcie dzia³ania systemu pod³¹czaæ do systemu plików inne urz¹dzenia, np. CDROM, Pendrive itd. – zamontowywaæ – za pomoc¹ polecenia mount (lub od³¹czaæ – polecenie umount). 
+Plik jest w /etc - nazywa siê fstab.
+Poni¿ej – przyk³adowy plik – systemu Linux na serwerze orfi:
+
+ 
+Trochê inaczej wygl¹da ten plik na innym komputerze(SO Ubuntu):
+ 
+Jako pierwszy cz³on zapisu pokazane s¹ albo nazwy pseudourz¹dzeñ: /dev/cdrom, albo indywidualne numery nadawane w momencie tworzenia pseudourz¹dzenia przez system (zaczyna siê od UUID=e5df...), albo etykiety: LABEL=/home1. Od tego zapis siê zaczyna, potem tzw. punkt montowania – w którym miejscu w logicznym systemie plików bêdzie pod³¹czone dane urz¹dzenie (system plików na nim bêdzie podkatalogiem tego punktu).
+
+ZADANIA:
+1. Wykorzystuj¹c mechanizm strumieni WE/WY:
+a- do pliku dane22 zapisaæ informacjê o pogodzie – bez edytora, dopisaæ wynik polecenia ls –l, nastêpnie dopisaæ nazwê bie¿¹cego katalogu;
+b- do pliku drzewo zapisaæ strukturê katalogu domowego, nastêpnie pliki dane 22 i drzewo zapisaæ do pliku wynik;
+c- wykorzystuj¹c mechanizm WE zapisaæ do jednego pliku razem zawartoœæ plików dane22, drzewo, wynik.
+2. Wykorzystuj¹c polecenie find znaleŸæ:
+a- wszystkie puste pliki zwyk³e w katalogu domowym i jego podkatalogach do poziomu 1;
+find $HOME –maxdepth 1 –empty –type f
+b- znaleŸæ w katalogu /dev wszystkie pliki opisuj¹ce pseudourz¹dzenia znakowe;
+find /dev  -type c
+c- wyszukaæ wszystkie podkatalogi w katalogu domowym z prawami dostêpu r-x dla w³aœciciela;
+find $HOME –maxdepth 1 –type d –perm –u=rx <= NIE WYKLUCZA PRAWA W
+d- wyszukaæ wszystkie pliki zwyk³e katalogu bie¿¹cym o nazwach zaczynaj¹cych siê na jedn¹ 
+z liter a-f,w i podaæ polecenie wyœwietlenia ich zawartoœci;
+find ./[a-f,w]* -type f -exec cat {} \; 
+e- wyszukaæ w podkatalogach do poziomu 3 w katalogu domowym pliki niepuste utworzone lub modyfikowane  nie wczeœniej ni¿ 30 minut temu.
+
+3. Wykorzystuj¹c ³¹czenie poleceñ:
+a– policzyæ ile urz¹dzeñ blokowych jest zdefiniowanych w katalogu /dev;
+
+
