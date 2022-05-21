@@ -1,0 +1,184 @@
+Pytania do analizy:
+1. Do czego s³u¿y komputer – narzêdzie do przetwarzania informacji.
+2. Jakie s¹ sposoby przedstawienia informacji – ró¿ne – przyroda – chemiczne, g³osowe, itd., cz³owiek – m. in. pismo.
+3. Sk¹d system dwójkowy – rola tranzystora.
+4. SO – do porz¹dkowania informacji i zarz¹dzania j¹ i jej przetwarzaniem.
+5. ¯eby pewne sytuacje przedstawiæ – je siê modeluje. Dlatego przy mówieniu o SO – bêdzie mowa równie¿ o pewnych modelach pewnych sytuacji.
+Konkretny SO – konkretna realizacja wybranych spoœród wielu pewnych modeli.
+
+System operacyjny
+System operacyjny (ang. Operating System, skrót OS) – oprogramowanie zarz¹dzaj¹ce systemem komputerowym, tworz¹ce œrodowisko do uruchamiania i kontroli zadañ u¿ytkownika.
+W celu uruchamiania i kontroli zadañ u¿ytkownika system operacyjny zajmuje siê:
+?	planowaniem oraz przydzia³em czasu procesora poszczególnym zadaniom,
+?	kontrol¹ i przydzia³em pamiêci operacyjnej dla uruchomionych zadañ,
+?	dostarcza mechanizmy do synchronizacji zadañ i komunikacji pomiêdzy zadaniami,
+?	obs³uguje sprzêt oraz zapewnia równolegle wykonywanym zadaniom jednolity, wolny od interferencji dostêp do sprzêtu.
+Dodatkowe przyk³adowe zadania, którymi mo¿e ale nie musi zajmowaæ siê system operacyjny to:
+?	ustalanie po³¹czeñ sieciowych
+?	zarz¹dzanie plikami.
+
+
+
+
+Budowa systemu operacyjnego
+
+
+Przyjêto podzia³ na trzy g³ówne elementy budowy systemu operacyjnego:
+?	j¹dro systemu wykonuj¹ce i kontroluj¹ce ww. zadania.
+?	pow³oka – specjalny program komunikuj¹cy u¿ytkownika z systemem operacyjnym,
+?	system plików – sposób zapisu struktury danych na noœniku.
+J¹dro systemu operacyjnego (ang. kernel) – podstawowa czêœæ systemu operacyjnego, która jest odpowiedzialna za wszystkie jego zadania.
+Z budowy j¹dra wynikaj¹ jego cechy systemu, takie jak:
+?	wielozadaniowoœæ (wieloprocesowoœæ), umo¿liwiaj¹ca mu równoczesne wykonywanie wiêcej ni¿ jednego procesu.
+?	wielow¹tkowoœæ, w ramach jednego procesu mo¿e wykonywaæ kilka w¹tków lub jednostek wykonawczych.
+?	wielobie¿noœæ, cecha j¹dra systemu operacyjnego, pozwalaj¹ca na jednoczesn¹ pracê kilku procesów w trybie j¹dra.
+?	skalowalnoœæ, jako skalowalny mo¿na okreœliæ system, który stosunkowo ³atwo mo¿na uproœciæ lub rozbudowaæ, w zale¿noœci od potrzeb.
+?	wyw³aszczalnoœæ. technika u¿ywana w œrodowiskach wielozadaniowych, w której algorytm szereguj¹cy (scheduler) mo¿e wstrzymaæ aktualnie wykonywane zadanie (np. proces lub w¹tek), aby umo¿liwiæ dzia³anie innemu. Dziêki temu rozwi¹zaniu zawieszenie jednego procesu nie powoduje blokady ca³ego systemu operacyjnego.
+J¹dro sk³ada siê z nastêpuj¹cych elementów funkcjonalnych:
+?	planisty czasu procesora, ustalaj¹cego które zadanie i jak d³ugo bêdzie wykonywane,
+?	prze³¹cznika zadañ, odpowiedzialnego za prze³¹czanie pomiêdzy uruchomionymi zadaniami,
+?	Dodatkowo: 
+o	modu³u zapewniaj¹cego synchronizacje i komunikacjê pomiêdzy zadaniami,
+o	modu³u obs³ugi przerwañ i zarz¹dzania urz¹dzeniami,
+o	modu³u obs³ugi pamiêci, zapewniaj¹cego przydzia³ i ochronê pamiêci.
+
+
+Zasoby sprzêtowe
+Zasoby sprzêtowe zarz¹dzane przez system operacyjny:
+?	procesor – przydzia³ czasu procesora,
+?	pamiêæ 
+o	alokacja przestrzeni adresowej dla procesów,
+o	transformacja adresów,
+?	urz¹dzenia zewnêtrzne 
+o	udostêpnianie i sterowanie urz¹dzeniami pamiêci masowej np. dysk twardy,
+o	alokacja przestrzeni dyskowej,
+o	udostêpnianie i sterowanie drukarkami, skanerami, aparatami itp.,
+?	informacja (system plików), 
+o	organizacja i udostêpnianie informacji,
+o	ochrona i autoryzacja dostêpu do informacji.
+Jednostka centralna:
+
+
+
+
+
+
+
+
+Zarz¹dzanie procesem – proces to program w stanie uruchomionym, ka¿dy proces wymaga przydzia³u pewnych zasobów, w³¹czaj¹c w to czas procesora, pamiêæ, pliki oraz urz¹dzenia wejœcia/wyjœcia, aby w pe³ni wykonaæ swoje zadanie. System operacyjny jest odpowiedzialny w fazie zarz¹dzania procesami za:
+?	tworzenie i usuwanie procesu,
+?	wstrzymywanie i przywracanie procesu,
+?	zapewnienie mechanizmów pozwalaj¹cych na synchronizacjê procesów oraz komunikacjê miêdzy procesami.
+Zarz¹dzanie pamiêci¹ operacyjn¹ – pamiêæ to du¿a tablica s³ów lub bajtów, ka¿da z w³asnym adresem, pamiêæ jest szybko dostêpna i dzielona jest pomiêdzy procesor oraz urz¹dzenia wejœcia/wyjœcia. Pamiêæ g³ówna jest ulotnym miejscem przechowywania danych, traci swoj¹ zawartoœæ w czasie awarii systemu. System operacyjny jest odpowiedzialny w fazie zarz¹dzania pamiêci¹ za:
+?	utrzymywanie informacji, która czêœæ pamiêci jest aktualnie u¿ywana i przez kogo,
+?	decydowania, który proces powinien zostaæ wczytany do pamiêci, je¿eli pamiêæ jest wolna,
+?	przydzielanie i zwalnianie pamiêci.
+Zarz¹dzanie plikami – plik jest zbiorem informacji zdefiniowanym przez twórcê pliku. Zazwyczaj, pliki reprezentuj¹ programy (Ÿród³a programów lub pliki wykonywalne) oraz dane. System operacyjny jest odpowiedzialny w fazie zarz¹dzania plikami za:
+?	tworzenie i kasowanie plików,
+?	tworzenie i kasowanie katalogów,
+?	wsparcie dla u¿ytkowników koñcowych przy operacjach na plikach,
+?	mapowanie plików na noœniku danych,
+?	tworzenie kopii plików.
+Zarz¹dzanie wejœciem/wyjœciem – system wejœcia/wyjœcia sk³ada siê z: systemu buforowania, interfejsu urz¹dzeñ g³ównych, sterowników (kontrolerów) dla specyficznych urz¹dzeñ.
+Zarz¹dzenie noœnikami danych – pamiêæ g³ówna jest ulotna i czêsto za ma³a aby obs³u¿yæ wszystkie programy i dane, dlatego stosuje siê noœniki danych (najczêœciej dysk twardy) do powiêkszania tej pamiêci tak zwanej pamiêæ drugiego rzêdu, na napêdach tych mapuje siê pamiêæ g³ówn¹. System operacyjny jest odpowiedzialny w fazie zarz¹dzania noœnikami danych za:
+?	zarz¹dzanie woln¹ pamiêci¹,
+?	alokacj¹ zapisu,
+?	planowaniem dysku.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LInux
+Linux– rodzina uniksopodobnych systemów operacyjnych opartych o j¹dro Linux. Linux jest jednym z przyk³adów wolnego i otwartego oprogramowania, jego kod Ÿród³owy mo¿e byæ dowolnie wykorzystywany, modyfikowany i rozpowszechniany.
+Zasady licencjonowania
+Projekt GNU – przedsiêwziêcie maj¹ce na celu stworzenie kompletnego, wolnego, systemu operacyjnego GNU, zapocz¹tkowane w styczniu 1984 roku przez Richarda Matthew Stallmana
+GNU General Public License – licencja wolnego i otwartego oprogramowania stworzona w 1989 roku  przez Richarda Stallmana i Ebena Moglena na potrzeby Projektu GNU,
+Celem licencji GNU GPL jest przekazanie u¿ytkownikom czterech podstawowych wolnoœci
+?	wolnoœæ uruchamiania programu w dowolnym celu (wolnoœæ 0)
+?	wolnoœæ analizowania, jak program dzia³a i dostosowywania go do swoich potrzeb (wolnoœæ 1)
+?	wolnoœæ rozpowszechniania niezmodyfikowanej kopii programu (wolnoœæ 2)
+?	wolnoœæ udoskonalania programu i publicznego rozpowszechniania w³asnych ulepszeñ, dziêki czemu mo¿e z nich skorzystaæ ca³a spo³ecznoœæ (wolnoœæ 3).
+Tylko je¿eli program spe³nia wszystkie cztery wolnoœci jednoczeœnie, wówczas, mo¿e byæ uznany za Wolne Oprogramowanie.
+Linux to jadro systemu, a dystrybucja to j¹dro systemu wraz ze zbiorem aplikacji oraz narzêdzi i instalatorem.
+
+J¹dro jest istotn¹ czêœci¹ systemu operacyjnego, ale samo jest bezu¿yteczne — mo¿e dzia³aæ tylko w obrêbie pe³nego systemu operacyjnego. 
+Dostêpne wolne programy po³¹czy³y siê w kompletny system, gdy¿ Projekt GNU od 1984 roku pracowa³ nad jego stworzeniem..
+
+Pierwsza wersja j¹dra Linux zosta³a udostêpniona publicznie 17 wrzeœnia 1991. Do j¹dra do³¹czono narzêdzia systemowe i biblioteki z projektu GNU aby otrzymaæ nadaj¹cy siê do u¿ytku system operacyjny. Z tego powodu powsta³a te¿ alternatywna nazwa kompletnego systemu: GNU/Linux. Obecnie jest on udostêpniany w formie licznych dystrybucji Linuksa, które sk³adaj¹ siê z j¹dra (niekiedy zmodyfikowanego w stosunku do oficjalnej wersji) i zestawu pakietów oprogramowania dobranego do ró¿norodnych wymagañ. 
+System ten jest ju¿ nowoczesnym, wielozadaniowym, wielou¿ytkownikowym systemem operacyjnym podobnym do systemu UNIX. Posiada miedzy innymi:
+1.	prawdziw¹ wielozadaniowoœæ / wielodostêpnoœæ - linux pozwala wielu u¿ytkownikom wykonywaæ (ró¿ne) programy jednoczeœnie, wykorzystuj¹c w pe³ni mo¿liwoœci procesora Intel 80386 i jego nastêpców. ochronê pamiêci - jeden proces nie mo¿e uszkodziæ innego procesu ani tym bardziej systemu),
+2.	zaawansowany system plików (d³ugie nazwy, wielkoœæ do 4TB),
+3.	wbudowan¹ obs³ugê wielu protoko³ów sieciowych (TCP/IP) 
+
+Pod wzglêdem wydajnoœci, szybkoœci i stabilnoœci œmia³o konkuruje z kosztownymi komercyjnymi systemami operacyjnymi. Ponadto, du¿¹ jego zalet¹ jest pe³na dostêpnoœæ kodu Ÿród³owego. Bazuj¹c swoje rozwi¹zania na Linuxie nie inwestuje siê w zamkniêt¹ technologiê, uzale¿nion¹ od ³aski lub nie³aski jednej firmy, lecz w otwarty system, do którego wiele firm jest w stanie zapewniæ wsparcie i doradztwo.
+
+Przyk³ady zastosowañ
+?	Linux stosowany jest jako podstawowy system operacyjny serwerów (w tym WWW, FTP, pocztowych, baz danych), zapór sieciowych, routerów,
+?	Linux wykorzystywany jest przez niektóre banki i instytucje finansowe. Przyk³adowo, system notowañ Wall Street oparty jest na tym systemie operacyjnym, jak i równie¿ Londyñska Gie³da.
+?	Linux jest u¿ywany w wiêkszoœci superkomputerów z listy TOP500. Znalaz³ równie¿ zastosowanie w przemyœle filmowym – zarówno na serwerach jak i stacjach roboczych. Jest najpopularniejszym systemem na komputerach wykorzystywanym do tworzenia animacji i efektów specjalnych. Z jego mo¿liwoœci korzystaj¹ miêdzy innymi studia Dreamworks, Pixar czy Industrial Light & Magic.
+?	Aparatura medyczna, np. tomografy komputerowe  korzystaj¹ z systemu operacyjnego Linux. 
+Dystrybucje wyspecjalizowane na serwery lub administracjê mog¹ u¿ywaæ wiersza poleceñ jako jedynego interfejsu. Nieobecnoœæ interfejsu graficznego (GUI) pozwala na zminimalizowanie wykorzystywanych zasobów systemowych
+Wiersz poleceñ jest uniwersalny w œwiecie Linuksa, gdzie graficzny interfejs na ka¿dej maszynie mo¿e byæ inny. 
+Dobrze zaprojektowane GUI jest ³atwiejsze w u¿yciu dla wiêkszoœci zadañ lecz bardziej doœwiadczeni u¿ytkownicy mog¹ wci¹¿ preferowaæ liniê komend; Wiele wa¿nych programów nie ma GUI. 
+Graficzny interfejs u¿ytkownika GUI nie jest w Linuksie integraln¹ czêœci¹ systemu operacyjnego lecz dodatkowym zbiorem programów. 
+
+Popularne dystrybucje
+Ubuntu
+Mandrake 
+SuSE 
+Jest to dystrybucja komercyjna
+Red Hat 
+Jest to dystrybucja komercyjna
+Slackware 
+Debian 
+
+Czy s¹ powody dla których warto zrezygnowaæ z Windows na rzecz Linuksa...? powodów jest wiele tak samo jak i osób które zadaj¹ sobie to pytanie, gdy¿ ka¿dy znajdzie dla siebie jakiœ argument. Oto g³ówne powody: 
+?	Licencja GNU GPL - przyczyni³a sie do wzrostu popularnoœci Linuksa, linuks jest darmowy, p³acimy tylko za noœnik, mo¿emy go kopiowaæ, rozpowszechniaæ wraz ze Ÿród³ami
+?	Jest w pe³ni skalowalny.
+?	Jest wieloplatformowy - mo¿na uruchomiæ zarówno na komputerach klasy PC czy Mac jak i na serwerze klastrowym
+?	Œwietnie nadaje siê do zastosowañ w sieci, zarówno jako serwer tak samo i klient, do dystrybucji do³¹czane s¹ wspania³e programy których na trudno szukaæ w innych systemach b¹dŸ s¹ to wersje komercyjne.
+?	Po instalacji system jest ju¿ gotowy do wielu zastosowañ od surfowania po sieci, multimedia, programowanie a¿ po serwery, do dystrybucji za³¹czanych jest szereg programów odtwarzacze multimedialne, programy graficzne, narzêdzia do monitoringu w sieci czy nawet gry.
+?	Wraz z linuksem otrzymasz pakiet biurowy Open Office- darmowa wersja Star Office odpowiednik komercyjnego Windowsowego Microsoft Office.
+?	Bezpieczeñstwo - nie bêd¹ ci groŸne ¿adne wirusy czy konie trojañskie który bez przerwy gro¿¹ u¿ytkownikom Windows.
+?	Jest dobrym wyborem dla programisty który otrzymuje po instalacji dobre narzêdzia developerskie.
+?	Stabilnoœæ- Linux jest stabilnym systemem operacyjnym, z racji tego i¿ instalowane programy nie ingeruj¹ w pliki systemowe, dziêki temu system nie jest uzale¿niony od jakiejœ aplikacji.
+?	Linuks wcale nie jest systemem dla specjalistów, mine³y czasy gdy zainstalowaæ linuksa móg³ tylko fachowiec, obecnie dystrybucje Mandrake, Red Hat czy Aurox maj¹ przyjazny instalator i interfejs graficzny.
+?	Nie jesteœ piratem gdy¿ u¿ywasz legalnego, bezp³atnego oprogramowania
+?	Dziêki emulatorowi windowsa "Wine" mo¿esz korzystaæ z aplikacji stworzonych na platformê windows
+?	Poznasz co w systemie piszczy - po pewnym czasie, gdy zapoznasz siê dobrze z systemem, zamiast korzystaæ z wizardów zaczniesz grzebaæ w plikach konfiguracyjnych i Ÿród³ach systemu, co pozwoli Ci zrozumieæ jak on dzia³a i pog³êbiæ swoj¹ wiedzê z zakresu informatyki.
+?	Mo¿na go zainstalowaæ na s³abszych komputerach i to wraz z interfejsem graficznym, Linuks posiada kilka menad¿erów okien: KDE, Gnome, IceWm, Window Manager Ful/Blac Box, które ró¿ni¹ siê zarówno funkcjonalnoœci, jak i wymaganiami sprzêtowymi
+?	Bez problemu uruchomisz stare aplikacje - developerzy Linuksa dbaj¹ o tzw. wsteczn¹ zgodnoœæ
+?	Mo¿esz go zainstalowaæ na jednym komputerze obok innych systemów
+
+
+Atrakcyjny graficzny interfejs u¿ytkownika (X Windows) i ci¹gle wzrastaj¹ca iloœæ oprogramowania wszelkiego rodzaju powoduje, ¿e Linux wcale nieŸle spisuje siê jako system domowy. Stabilnoœæ, efektywne wykorzystanie zasobów sprzêtowych, pe³na wielozadaniowoœæ z wyw³aszczeniem, charakterystyczny dla unixów - bezpieczny system uprawnieñ dla ka¿dego u¿ytkownika i doskona³a integracja z Internetem - to wszystko na zwyk³ym PC i za darmo.
+
+
