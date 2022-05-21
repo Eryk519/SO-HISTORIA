@@ -1,0 +1,481 @@
+Temat: Podsystem plików – pow³oka, skrypty.  
+Zawartoœæ
+1. Listy warunków	1
+2. Rozwiniêcia parametryczne.	1
+3. Funkcje.	3
+4. Polecenia:	5
+5. Debugowanie skryptów.	6
+ZADANIA:	6
+1. Listy warunków
+Lista AND:  
+warunek1  &&  warunek2  &&  warunek3
+np.: 
+if  [ $a = „kot” ]   &&  echo TAK    && [  $b –gt 11 ] ...
+Lista OR:  
+warunek1  ||  warunek2  ||  warunek3
+Sprawdzanie – w kolejnoœci od lewej do prawej. Przy OR – pierwszy z lewej prawdziwy – prawda. Np.: - proszê zinterpretowaæ kolejnoœæ wykonywania poleceñ:
+
+
+
+
+
+
+
+
+
+
+
+if echo ok && ls && pwd
+> then echo ok
+> else echo nie
+> fi
+ok
+a.out     plik22        public_html  skrypt805
+dane.txt  plik33        skrypt1      tekst5.04
+plik11    plik_lseek.c  skrypt2
+/home/mirek
+ok
+
+Blok instrukcji  - ( a ; b ) && ( c ; d; e ) && … - aby w miejscu gdzie mo¿e byæ jedna instrukcja lub zamiast jednej instrukcji chcemy u¿yæ ich zestawu – nale¿y ten zestaw wzi¹æ w nawiasy klamrowe – {  }, np.:
+if  [ $a = „kot” ]   &&  echo TAK    &&  {    
+ls –l | tr –s „ ”   | cut –d” ”   -f1,3 | wc > plik
+cat plik;   echo   DZIALA
+echo ok
+}   <= prawda dla tego co w klamrach bêdzie wtedy gdy wszystkie polecenia siê wykonaj¹ poprawnie.
+W warunkach mo¿emy zapisywaæ alternatywne znaki na danej pozycji – w nawiasach [ ], np.:
+case $a in
+„tak” | „TAK” )    <= opisane wartoœci („tak” lub „TAK”).
+[tT][aA][kK] )        <= opisane wartoœci („tak” lub „Tak” lub „tAk” lub „taK” ... – kombinacje liter ma³ych i du¿ych).
+
+2. Rozwiniêcia parametryczne.
+${ parametr:-wartoœæ_domyœlna}     - np.:   ${a:-plikZERO} – je¿eli zmienna a nie ma wartoœci to bêdzie przyjêta „plikZERO”;
+
+
+
+
+
+
+
+
+
+
+
+
+
+Niech zmienna SCIEZKA ma przypisany jako wartoœæ taki ³añcuch: 
+/home/jan23/Pliki/projekt1/Pliki/Dane   .
+${ #parametr }    - podaje d³ugoœæ parametru, tzn. jakiej d³ugoœci ³añcuch tekstowy jest zawarty w zmiennej;
+
+${ parametr%s³owo* }    -usuwa z ³añcucha od koñca najmniejsz¹ czêœæ parametru do s³owa w³¹cznie z nim, resztê przypisuje, np.:   
+zmienna SCIEZKA ma przypisany jako wartoœæ taki ³añcuch: 
+/home/jan23/Pliki/projekt1/Pliki/Dane,
+wyra¿enie:
+${ SCIEZKA%Pliki* }  da wynik: /home/jan23/Pliki/projekt1/         ;
+[miroslaw.zuzel@orfi ~]$ echo ${SCIEZKA%Pliki*}
+/home/jan23/Pliki/projekt1/
+Usuniêcie ze znakiem „/”:
+[miroslaw.zuzel@orfi ~]$ echo ${SCIEZKA%/Pliki*}
+/home/jan23/Pliki/projekt1
+
+${ parametr%%s³owo* }    -usuwa z ³añcucha od koñca najd³u¿sz¹ czêœæ parametru do s³owa w³¹cznie z nim, resztê przypisuje, np.:   
+zmienna SCIEZKA ma przypisany jako wartoœæ taki ³añcuch: 
+/home/jan23/Pliki/projekt1/Pliki/Dane,
+wyra¿enie:
+${ SCIEZKA%%Pliki* }  da wynik: /home/jan23/       ;
+
+${ parametr#*s³owo }    -usuwa z ³añcucha od pocz¹tku najmniejsz¹ czêœæ parametru do s³owa w³¹cznie z nim, resztê przypisuje, np.:   
+zmienna SCIEZKA ma przypisany jako wartoœæ taki ³añcuch: 
+/home/jan23/Pliki/projekt1/Pliki/Dane,
+wyra¿enie:
+${ SCIEZKA#*Pliki }  da wynik: /projekt1/Pliki/Dane;
+Usuniêcie symbolu „/”:   echo ${SCIEZKA#*Pliki/}
+projekt1/Pliki/Dane  .
+${ parametr##*s³owo }    -usuwa z ³añcucha od pocz¹tku najd³u¿sz¹ czêœæ parametru do s³owa w³¹cznie z nim, resztê przypisuje, np.:   
+zmienna SCIEZKA ma przypisany jako wartoœæ taki ³añcuch: 
+/home/jan23/Pliki/projekt1/Pliki/Dane,
+wyra¿enie: ${ SCIEZKA##*Pliki }  da wynik: /Dane    .
+
+
+
+
+
+
+
+
+
+
+
+[miroslaw.zuzel@orfi ~]$ echo ${SCIEZKA##*Pliki}
+/Dane
+[miroslaw.zuzel@orfi ~]$ echo ${SCIEZKA##*Pliki/}
+Dane
+
+£¹czenie ³añcuchów:
+ d=$HOME/DANE
+ echo $d
+/home/WMII/miroslaw.zuzel/DANE
+
+3. Funkcje.
+Funkcje w skrypcie definiujemy przed skryptem g³ównym:
+#!/bin/bash
+fun1 () {
+echo DZIALA FUN1
+}
+echo „SKRYPT glowny”
+fun1   abc kot pies   #  wywo³anie funkcji – z parametrami funkcji
+echo „GLOWNY – koniec”
+exit 0
+Wynik:
+SKRYPT glowny
+DZIALA FUN1
+GLOWNY – koniec
+
+Zmienne globalne i lokalne – zmienna zdefiniowana w skrypcie g³ównym lub funkcji jest globaln¹ – widzialn¹ w skrypcie g³ównym oraz funkcji. 
+Skrypt:
+ #!/bin/bash
+ 2 fun1 () {
+ 3 echo DZIALA FUN1
+ 4 pp33=NOGA
+ 5 echo "pp33="$pp33
+ 6 }
+ 7 echo „SKRYPT glowny”
+ 8 echo "pp33="$pp33
+ 9 fun1      #  wywo³anie funkcji
+10 echo "pp33="$pp33
+11 echo „GLOWNY – koniec”
+12 exit 0
+
+siê wykona:
+ ./FF1
+„SKRYPT glowny”
+DZIALA FUN1
+„GLOWNY – koniec”
+[miroslaw.zuzel@orfi ~]$ nano FF1
+[miroslaw.zuzel@orfi ~]$ ./FF1
+„SKRYPT glowny”
+pp33=                    <== zmienna jeszcze nie istnieje – pojawia siê dopiero w funkcji
+DZIALA FUN1
+pp33=NOGA
+pp33=NOGA
+„GLOWNY – koniec”
+
+
+
+
+
+
+
+
+
+
+
+
+
+Funkcja mo¿e zwracaæ wartoœci poprzez zmienne – jako ich wartoœci (mo¿na stosowaæ return – do liczb, ale do przekazywania  ³añcuchów tylko zmienne).
+Przyk³ad wykorzystania return:
+ #!/bin/bash
+ fun1 () {
+ echo DZIALA FUN1
+return 33
+  }
+ echo „SKRYPT glowny”
+fun1      #  wywo³anie funkcji
+echo $?  # wartoœæ zwrócona przez return
+echo „GLOWNY – koniec”
+
+Aby zmienna w funkcji by³a lokalna trzeba  „przes³oniæ” zmienn¹ ze skryptu g³ównego now¹ definicj¹ – polecenie local , np.:
+#!/bin/bash  
+zm22=”kotki dwa”
+fun1 () {
+echo DZIALA F1
+local  zm22=22
+echo w fun1 -zm22=$zm22
+}
+echo „SKRYPT glowny”
+echo W GLOWNYM-ZM22=$zm22
+fun1
+echo GLOWNY - koniec  .
+
+Przyk³ad z przekazywaniem parametrów (miêdzy nawiasami po fun1 nic nie piszemy):
+Przyk³ad – nazwa skryptu „param”:
+ #!/bin/bash
+ f1(){
+ echo f1
+ echo $*
+ echo $1
+ }
+ echo skrypt
+ f1   22    KOT    pies
+echo parametry skryptu: $*
+echo $1
+
+Uruchomienie:
+[miroslaw.zuzel@orfi ~]$ ./param   hhh    qqq    1111
+skrypt
+f1
+22 KOT pies
+22
+parametry skryptu: hhh qqq 1111
+hhh
+
+Inny przyk³ad: 
+#!/bin/bash
+fun1 () {
+echo DZIALA FUN1
+echo „w fun1:” $* $0 
+echo „w fun1:” $1 $2
+}
+echo „SKRYPT glowny”
+echo „jego parametry:” $*   #       Ala pies lis
+fun1            do fun1 przekazujemy $1  $3   $4  # parametry przekazywane do funkcji
+
+#w funkcji: $1  $2              $3          $4 $5 $6
+echo „GLOWNY – koniec”
+exit 0
+Zapisujemy do pliku „skr1”.
+Uruchamiamy:
+./skr1   Ala kot pies lis 123 aha      .
+Proszê zwróciæ uwagê na parametry – w skrypcie g³ównym s¹ inne ni¿ w funkcji.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mo¿emy instrukcjê pisaæ w kilku wierszach  - na koñcu ka¿dego poza ostatnim wierszem wstawiamy znak „\” – kontynuacji, np.:
+./skr1   Ala kot pies lis 123 aha      \
+  Alibaba  222 888    \
+ptak szpak .
+Zadanie.
+1.Skrypt wywo³uje funkcjê, która pobiera dwie liczby jako parametry (tryb wsadowy), oblicza ich sumê, wynik zwraca za pomoc¹ return. Wszystkie wartoœci wyœwietliæ.
+2.Skrypt wywo³uje funkcjê, która na zmiennych lokalnych oblicza sumê i iloczyn wartoœci przekazanych do niej jako parametry funkcji - tryb wsadowy, nastêpnie obliczone wartoœci przekazuje do skryptu g³ównego. Wartoœci do skryptu te¿ przekazuje siê jako parametry - tryb wsadowy.
+3. Napisaæ skrypt, który pobiera 2 parametry – pierwszy – opcja wyboru (jedna z trzech), drugi – nazwa pliku albo katalogu. Skrypt w zale¿noœci od wartoœci pierwszego parametru:
+- je¿eli 1 – to sprawdza czy istnieje katalog o nazwie podanej jako drugi parametr, je¿eli istnieje to
+go usuwa, je¿eli nie - to go tworzy;
+- je¿eli 2 – zapisuje do pliku o nazwie  podanej jako drugi parametr wartoœæ zmiennej $HOME
+- je¿eli 3 – komunikat - „FUNKCJA 3”
+wywo³uje odpowiedni¹ funkcjê i przekazuje jej odpowiednie wartoœci.
+
+4. Polecenia:
+A) eval   <= pozwala otrzymaæ ”wartoœæ wartoœci zmiennej” – np.:
+zm1=10
+x=zm1
+y=’$’$x     mamy otrzymaæ ³añcuch: znak ‘$’  + wartoœæ w zmiennej x – „zm1” , co razem daje ³añcuch  				„$zm1”
+echo $y
+da w wyniku ³añcuch $zm1   ,
+natomiast:
+zm1=10
+x=zm1
+eval   y=’$’$x   <== przypisanie wartoœci zmiennej zm1 do zmiennej y
+echo $y
+da w wyniku 10   .
+[miroslaw.zuzel@orfi ~]$ zm1=10
+[miroslaw.zuzel@orfi ~]$ echo $zm1
+10
+[miroslaw.zuzel@orfi ~]$ x=zm1
+[miroslaw.zuzel@orfi ~]$ echo $x
+zm1
+[miroslaw.zuzel@orfi ~]$ y='$'$x
+[miroslaw.zuzel@orfi ~]$ echo $y
+$zm1
+[miroslaw.zuzel@orfi ~]$ eval y='$'$x
+[miroslaw.zuzel@orfi ~]$ echo $y
+10
+[miroslaw.zuzel@orfi ~]$
+
+B) exit n    <=zwraca kod:
+0 - =sukces
+1-125 – kody b³êdów
+126 – plik nie by³ wykonywalny
+127 – polecenie nie by³o znalezione
+128-255 – pojawi³ siê sygna³ o numerze ...   .
+
+C)  echo – np.:
+echo „slowo”
+echo –n „tekst w tej samej linii co slowo”  <= czasami u¿ywa siê –e.
+Opcja -e powoduje ¿e interpretowane s¹ znaki:
+\b - backspace
+\n - nowa linia
+\r - powrót karetki
+\t - tabulator
+\\ - backslash
+
+D) inne: break, continue, . (kropka) – wykonanie polecenia w bie¿¹cej pow³oce (normalnie gdy skrypt wykonuje zewnêtrzne polecenie lub skrypt, tworzone jest nowe œrodowisko – uruchamiany kolejny shell), exec, export, return – funkcja zwraca jedn¹ liczbê, set, shift, trap, ... .
+
+5. Debugowanie skryptów.
+Wykorzysta³em ksi¹¿kê „Neil Matthew , Richard Stones – Linux. Programowanie. W-wa 1999”.
+Mo¿na za pomoc¹ komunikatów pomocniczych – echo.
+Przyk³ad skryptu:
+cat skr09
+
+#!/bin/bash
+echo dziala skr09
+echo ala
+ls-l
+tree-d
+echo a=$a          # zmienna a nie ma wartoœci
+echo koniec
+
+ Zwyk³e wykonanie skryptu:
+[miroslaw.zuzel@orfi ~]$  ./skr09
+dziala skr09
+ala
+./skr09: line 4: ls-l: command not found
+./skr09: line 5: tree-d: command not found
+a=       <== ma byæ wartoœæ a 
+koniec
+[miroslaw.zuzel@orfi ~]$
+Mo¿na ustawiæ opcje w poleceniu (wierszu) #!/bin/bash -  opcja : 
+-e powoduje zamkniêcie pow³oki gdy dzia³anie prostego polecenia zakoñczy siê niepowodzeniem:
+#!/bin/bash -e 
+[miroslaw.zuzel@orfi ~]$  ./skr09
+./skr09
+dziala skr09
+ala
+./skr09: line 4: ls-l: command not found    <== b³ad w tej linii , nastêpna „tree-d” siê nie wykonuje
+[miroslaw.zuzel@orfi ~]$ echo $?
+127
+
+-u – nounset – komunikat b³êdu i zamkniêcie pow³oki gdy skrypt próbuje u¿yæ niezdefiniowanej zmiennej: 
+ #!/bin/bash -u
+[miroslaw.zuzel@orfi ~]$  ./skr09
+dziala skr09
+ala
+./skr09: line 4: ls-l: command not found
+./skr09: line 5: tree-d: command not found
+./skr09: line 6: a: unbound variable
+[miroslaw.zuzel@orfi ~]$
+
+-x – w³¹czenie debuggera:
+#!/bin/bash -x
+[miroslaw.zuzel@orfi ~]$  ./skr09
++ echo dziala skr09
+dziala skr09
++ echo ala
+ala
++ ls-l
+./bbb: line 4: ls-l: command not found
++ tree-d
+./bbb: line 5: tree-d: command not found
++ echo a=
+a=
++ echo koniec
+koniec
+[miroslaw.zuzel@orfi ~]$
+
+Po zdefiniowaniu zmiennej a:
++ echo dziala skr09
+dziala skr09
++ echo ala
+ala
++ ls-l
+./bbb: line 4: ls-l: command not found
++ tree-d
+./bbb: line 5: tree-d: command not found
++ a=33
++ echo a=33  <== w tym miejscu polecenie wygl¹da tak : echo a=$a, debugger podstawia zamiast 			zmiennej wartoœæ
+a=33
++ echo koniec
+koniec
+
+Zmodyfikowany skrypt:
+ #!/bin/bash
+ 2 set -x
+ 3 echo dziala skr09
+ 4 echo ala
+ 5 a=1
+ 6 echo $0 $1
+ 7 b=2
+ 8 c=$[$a+$b]
+ 9 ls-l
+10 echo c=$c
+11 echo d=$d
+
+[miroslaw.zuzel@orfi ~]$ ./skr09   UUUUUU
+./skr09   UUUUUU
++ echo dziala skr09
+dziala skr09
++ echo ala
+ala
++ a=1
++ echo ./skr09 UUUUUU
+./skr09 UUUUUU
++ b=2
++ c=3
++ ls-l
+./skr09: line 9: ls-l: command not found
++ echo c=3
+c=3
++ echo d=
+d=
+[miroslaw.zuzel@orfi ~]$
+
+Mo¿na ustawiæ opcje pow³oki albo u¿yæ polecenia set  - z opcjami –eux, z niezdefiniowan¹ zmienn¹ A i opcjami, ze zmienn¹ A i wy³¹czonymi opcjami – jak ostatni wariant skryptu:
+
+Nie wszystkie poni¿ej opisane opcje zadzia³a³y (-n), opcje dla pow³oki  - nie.
+Opcje wiersza poleceñ		Opcje pow³oki 		Opis
+
+sh –n  <skrypt>			set  -o  noexec		Szuka b³êdów sk³adni nie wykonuj¹c poleceñ
+				set  –n
+sh –v  <skrypt>			set  -v  verbose		Powtarza polecenia przed ich wykonaniem
+				set  –v
+sh –x  <skrypt>			set  -o  xtrace		Powtarza polecenia po ich wykonaniu  
+				set  –x			w wierszu poleceñ
+				set  -o  nounset		Podaje komunikat b³êdu gdy wykonywana   
+				set  –u			jest niezdefiniowana zmienna
+
+Przyk³ad u¿ycia opcji pow³oki w skrypcie i efekt:
+ #!/bin/bash
+ 2 set -x
+ 3 echo dziala skr09
+ 4 echo ala
+ 5 ls-l
+ 6 tree-d
+ 7 echo $a
+[miroslaw.zuzel@orfi ~]$ ./skr09
+./skr09
++ echo dziala skr09
+dziala skr09
++ echo ala
+ala
++ ls-l
+./skr09: line 5: ls-l: command not found
++ tree-d
+./skr09: line 6: tree-d: command not found
++ echo
+
+[miroslaw.zuzel@orfi ~]$
+
+Mo¿na w³¹czyæ znaczniki opcji polecenia set za pomoc¹ opcji:   -0 <=w³¹cza, +0 <=wy³¹cza.
+Przy wstêpnym sprawdzaniu wystarcz¹ opcje wiersza poleceñ.
+Przy dok³adniejszym sprawdzaniu skryptu warto umieszczaæ opcjê xtrace wewn¹trz skryptu – w³¹czaæ j¹ dla szczególnych fragmentów.
+
+ZADANIA:
+1. Napisaæ polecenie, które sprawdza czy wszystkie warunki zachodz¹ – w katalogu bie¿¹cym jest plik „dane.txt”, plik „kopia” jest niezerowy, zmienna $a ma wartoœæ 5 i wynik polecenia echo OK jest poprawny.
+2.  Napisaæ polecenie, które sprawdza czy jeden z warunków zachodzi – w katalogu bie¿¹cym jest plik „dane.txt”, plik „kopia” jest niezerowy, zmienna $a ma wartoœæ 5 i wynik polecenia echo OK jest poprawny.
+3. Dla œcie¿ki „/home/jan23/Dane/Projekt_22/Dane/Pliki” :
+- wyci¹æ czêœæ do podkatalogu „Dane” pierwszego od lewej , resztê przypisaæ do zmiennej a;
+- wyci¹æ czêœæ do podkatalogu „Dane” pierwszego od prawej , resztê przypisaæ do zmiennej a;
+- zostawiæ czêœæ do podkatalogu „Dane” pierwszego od lewej i przypisaæ do zmiennej a, resztê wyci¹æ;
+- zostawiæ czêœæ do podkatalogu „Dane” pierwszego od prawej i przypisaæ do zmiennej a, resztê wyci¹æ;
+- ustaliæ d³ugoœæ ³añcucha opisuj¹cego œcie¿kê;
+- dla zmiennej b przypisaæ wartoœæ domyœln¹  – œcie¿kê dostêpu do katalogu domowego.
+4. Napisaæ skrypty, który zawieraj¹:
+-funkcjê która zawiera zmienn¹ lokaln¹ zm1, której nadaje wartoœæ 11, potem do j¹ dodaje do zmiennej globalnej bb1, skrypt zawiera zmienne: zm1 z nadan¹ wartoœci¹ 33 i bb1 z wartoœci¹ 7;
+-funkcjê która wyœwietla pobrane parametry, skrypt g³ówny wczytuje przy uruchamianiu trzy parametry, dwa ostatnie z nich przekazuje do funkcji, oprócz tego przekazuje dwie liczby: 122 i 34;
+-funkcjê wczytuj¹c¹ dwie wartoœci – liczby i obliczaj¹c¹ ich sumê, funkcja przekazuje wartoœæ sumy do skryptu g³ównego.
+5. Utworzyæ skrypt zawieraj¹cy polecenia: wyœwietl œcie¿kê dostêpu do katalogu bie¿¹cego, zapisz j¹ do zmiennej a, do zmiennej b zapisz – ile zwyk³ych plików zawiera katalog domowy. Skrypt wczytuje wartoœæ – je¿eli wczyta³:
+1- ma utworzyæ na nowo plik o nazwie „Dane”, do którego zapisze strukturê katalogu domowego,
+2- ma policzyæ podkatalogi w katalogu domowym do podpoziomu 3
+3- ma wyœwietliæ zawartoœæ katalogu domowego.
+Do diagnostyki skryptu zastosowaæ debuggera.
